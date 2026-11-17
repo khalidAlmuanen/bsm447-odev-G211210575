@@ -10,7 +10,7 @@ Sakarya Üniversitesi BSM447 Mobil Uygulama Geliştirme dersi dönem ödevi.
 
 ## Projenin mevcut durumu
 
-Phase 1 ve Phase 2 tamamlandı. Uygulama geliştirme aşamasındadır.
+Phase 1, Phase 2 ve Phase 3 uygulandı. Uygulama geliştirme aşamasındadır; fiziksel telefon kontrolleri devam etmektedir.
 
 Çalışan özellikler:
 
@@ -19,10 +19,12 @@ Phase 1 ve Phase 2 tamamlandı. Uygulama geliştirme aşamasındadır.
 - FlatList ile ad ve ödül yılı gösterimi; kayıt kimliğinin liste anahtarı olarak kullanılması.
 - Gelen 30 kaydın ödül yılına göre yeniden eskiye sıralanması.
 - İsimde büyük/küçük harfe duyarsız arama.
-- Seçilen kaydın route.params ile Detay ekranına aktarılması ve adının gösterilmesi.
+- Seçilen kaydın route.params ile Detay ekranına aktarılması; ad, ödül yılı, doğum tarihi, ülke ve ödül gerekçesinin gösterilmesi.
+- Doğum yılı ile ödül yılının farkından yaklaşık yaş hesaplanması. Eksik ay/gün bilgileri açıkça belirtilir; bu değer ödül günündeki kesin yaş değildir.
+- Mevcut İngilizce Wikipedia bağlantısının gösterilmesi ve açılması; açılamayan bağlantı için hata mesajı.
 - Yükleniyor, boş sonuç ve hata mesajları; Tekrar dene düğmesi.
 
-Detay ekranındaki diğer bilgiler ve Kaydedilenler ekranındaki kalıcı kayıt işlemleri henüz tamamlanmadı.
+Kaydedilenler ekranındaki kalıcı kayıt işlemleri ve tema seçimi henüz tamamlanmadı.
 
 ## Veri kaynağı
 
@@ -47,12 +49,16 @@ npx expo start
 
 Android telefonda Expo Go ile terminaldeki QR kodunu okutun. Telefon ve bilgisayar aynı Wi-Fi ağında olmalıdır.
 
-Listeyi ve yıl sırasını kontrol edin. aziz ve AZIZ ile arama yapın, bir kaydı açıp geri dönün ve iki sekme arasında geçiş yapın. Fiziksel Android telefon testi henüz doğrulanmadı.
+Listeyi ve yıl sırasını kontrol edin. aziz ve AZIZ ile arama yapın; Aziz Sancar'ın detayında 2015 ödül yılı, 1946-09-08 doğum tarihi ve yaklaşık 69 yaş bilgisini kontrol edin. David Baker'ın eksik doğum tarihi 1962 (ay ve gün bilinmiyor), yaklaşık yaşı 62 olarak gösterilir. Wikipedia düğmesini ve geri dönüşü deneyin. Fiziksel Android telefon testi henüz doğrulanmadı.
+
+Doğum tarihi ve yaklaşık yaş hesaplamasının otomatik testlerini çalıştırmak için:
+
+```sh
+npm test
+```
 
 ## Tamamlanacak işler
 
-- Detayda doğum tarihi, ülke, ödül gerekçesi ve Wikipedia bağlantısı.
-- Ödül yılındaki yaşın hesaplanması; eksik tarihler için uygun açıklama.
 - Kaydet / Kaydedilenlerden çıkar işlemleri ve AsyncStorage ile kalıcı kayıtlar.
 - Karanlık / Aydınlık Tema anahtarı ve tema seçiminin saklanması.
 - Uygulamaya özel simge, Android telefon ve APK testleri.
