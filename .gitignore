@@ -39,3 +39,25 @@ yarn-error.*
 # generated native folders
 /ios
 /android
+
+# Local project notes
+/REQUIREMENTS.md
+/BSM447_Donem_Odevi.pdf
+
+# Environment variables and credentials
+.env
+.env.*
+credentials.json
+*.keystore
+*.pfx
+
+# Temporary files and generated output
+/tmp/
+/temp/
+/coverage/
+/build/
+*.tmp
+*.log
+*.apk
+*.aab
+/G211210575_BSM447.zip
