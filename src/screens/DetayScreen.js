@@ -3,7 +3,10 @@ import { Button, Linking, ScrollView, StyleSheet, Text, View } from 'react-nativ
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { dogumBilgisiGetir, odulYasiniHesapla } from '../utils/odulYasi';
 
-export default function DetayScreen({ navigation, route }) {
+export default function DetayScreen({
+  navigation, route, kaydedilenler, kayitlarYukleniyor, kayitlarHazir,
+  kayitHatasi, kayitIslemiSuruyor, kaydiDegistir, kayitlariTekrarOku,
+}) {
   const odulSahibi = route.params?.odulSahibi;
   const isim = odulSahibi?.knownName?.en || odulSahibi?.orgName?.en;
   const odul = odulSahibi?.nobelPrizes?.[0];
@@ -13,6 +16,9 @@ export default function DetayScreen({ navigation, route }) {
   const wikipediaVar = typeof wikipedia === 'string'
     && /^https:\/\/en\.wikipedia\.org\/wiki\/\S+$/i.test(wikipedia);
   const [baglantiHatasi, setBaglantiHatasi] = useState('');
+  const kayitli = odulSahibi && kaydedilenler.some((item) =>
+    String(item.id) === String(odulSahibi.id)
+  );
 
   async function wikipediaAc() {
     setBaglantiHatasi('');
@@ -30,6 +36,29 @@ export default function DetayScreen({ navigation, route }) {
 
         {odulSahibi ? (
           <>
+            <View style={styles.saveButton}>
+              <Button
+                title={kayitli ? 'Kaydedilenlerden çıkar' : 'Kaydet'}
+                onPress={() => kaydiDegistir(odulSahibi)}
+                disabled={!kayitlarHazir || kayitIslemiSuruyor}
+                color="#22577a"
+              />
+              {kayitlarYukleniyor && (
+                <Text style={styles.note}>Kaydedilenler yükleniyor...</Text>
+              )}
+              {kayitIslemiSuruyor && (
+                <Text style={styles.note}>Kayıt işlemi yapılıyor...</Text>
+              )}
+              {kayitHatasi !== '' && (
+                <Text style={styles.error} accessibilityRole="alert">
+                  {kayitHatasi}
+                </Text>
+              )}
+              {!kayitlarHazir && !kayitlarYukleniyor && (
+                <Button title="Tekrar dene" onPress={kayitlariTekrarOku} color="#22577a" />
+              )}
+            </View>
+
             <Text style={styles.label}>Ödül yılı</Text>
             <Text style={styles.value}>{odul?.awardYear || 'Bilinmiyor'}</Text>
 
@@ -132,5 +161,8 @@ const styles = StyleSheet.create({
   },
   backButton: {
     marginTop: 28,
+  },
+  saveButton: {
+    marginBottom: 4,
   },
 });

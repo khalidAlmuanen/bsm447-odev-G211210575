@@ -6,11 +6,11 @@ Sakarya Üniversitesi BSM447 Mobil Uygulama Geliştirme dersi dönem ödevi.
 - Konu: **K08 - Nobel Ödülleri**
 - Varyant: **b - Kimya**
 - Ek kural: **7 - Karanlık / Aydınlık Tema** (henüz uygulanmadı)
-- Kalıcı veri yöntemi: **AsyncStorage** planlandı; henüz uygulanmadı.
+- Kalıcı veri yöntemi: **AsyncStorage 2.2.0**. Kaydedilen kayıtlar tüm detaylarıyla JSON olarak saklanır ve uygulama açıldığında geri yüklenir.
 
 ## Projenin mevcut durumu
 
-Phase 1, Phase 2 ve Phase 3 uygulandı. Uygulama geliştirme aşamasındadır; fiziksel telefon kontrolleri devam etmektedir.
+Phase 1, Phase 2, Phase 3 ve Phase 4 uygulandı. Uygulama geliştirme aşamasındadır; fiziksel Android telefon doğrulaması beklenmektedir.
 
 Çalışan özellikler:
 
@@ -23,8 +23,12 @@ Phase 1, Phase 2 ve Phase 3 uygulandı. Uygulama geliştirme aşamasındadır; f
 - Doğum yılı ile ödül yılının farkından yaklaşık yaş hesaplanması. Eksik ay/gün bilgileri açıkça belirtilir; bu değer ödül günündeki kesin yaş değildir.
 - Mevcut İngilizce Wikipedia bağlantısının gösterilmesi ve açılması; açılamayan bağlantı için hata mesajı.
 - Yükleniyor, boş sonuç ve hata mesajları; Tekrar dene düğmesi.
+- Detay ekranında Kaydet / Kaydedilenlerden çıkar düğmesi; durum iki ekranda ortak tutulur.
+- Kaydedilenler ekranında kayıtları listeleme, aynı Detay ekranına geçiş ve Çıkar düğmesi.
+- Uygulama yeniden açıldığında kayıtları AsyncStorage'dan geri yükleme; API erişilemese de saklanan detayları gösterme.
+- Depolama okuma/yazma hatalarını gösterme; okuma tamamlanmadan kayıtları değiştirmeme ve yazma başarısızsa mevcut listeyi koruma.
 
-Kaydedilenler ekranındaki kalıcı kayıt işlemleri ve tema seçimi henüz tamamlanmadı.
+Karanlık / Aydınlık Tema ve tema tercihinin saklanması henüz uygulanmadı.
 
 ## Veri kaynağı
 
@@ -34,8 +38,9 @@ Veriler API yanıtındaki laureates dizisinden okunur. Projeye kopyalanmış bir
 
 ## Kullanılan teknolojiler
 
-- JavaScript, React Native ve Expo SDK 58 (expo ~58.0.25)
+- JavaScript, React Native ve Expo SDK 58 (expo ~58.0.26)
 - React Navigation: Bottom Tabs ve Native Stack
+- AsyncStorage ile kalıcı veri; App.js içindeki ortak state ve ekranlara geçirilen props
 - useState, useEffect, fetch, FlatList, TextInput ve StyleSheet.create
 
 ## Kurulum ve çalıştırma
@@ -51,7 +56,9 @@ Android telefonda Expo Go ile terminaldeki QR kodunu okutun. Telefon ve bilgisay
 
 Listeyi ve yıl sırasını kontrol edin. aziz ve AZIZ ile arama yapın; Aziz Sancar'ın detayında 2015 ödül yılı, 1946-09-08 doğum tarihi ve yaklaşık 69 yaş bilgisini kontrol edin. David Baker'ın eksik doğum tarihi 1962 (ay ve gün bilinmiyor), yaklaşık yaşı 62 olarak gösterilir. Wikipedia düğmesini ve geri dönüşü deneyin. Fiziksel Android telefon testi henüz doğrulanmadı.
 
-Doğum tarihi ve yaklaşık yaş hesaplamasının otomatik testlerini çalıştırmak için:
+Kaydet düğmesine basın; düğme Kaydedilenlerden çıkar olarak değişmelidir. Kaydedilenler sekmesinde aynı kaydı açın, çıkarın ve diğer ekrandaki durumunu kontrol edin. İki kayıt ekleyip uygulamayı tamamen kapatın ve uygulama verilerini silmeden yeniden açın. Kayıtların ve detaylarının kaldığını, çıkarılan kaydın tekrar açılışta gelmediğini doğrulayın. API erişilemediğinde Kaydedilenler'i deneyin; Expo Go geliştirme testinde Metro sunucusuna yerel erişim sürmelidir.
+
+Doğum tarihi, yaklaşık yaş ve kaydedilen veri doğrulamasının otomatik testlerini çalıştırmak için:
 
 ```sh
 npm test
@@ -59,7 +66,6 @@ npm test
 
 ## Tamamlanacak işler
 
-- Kaydet / Kaydedilenlerden çıkar işlemleri ve AsyncStorage ile kalıcı kayıtlar.
 - Karanlık / Aydınlık Tema anahtarı ve tema seçiminin saklanması.
 - Uygulamaya özel simge, Android telefon ve APK testleri.
 
