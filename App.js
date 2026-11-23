@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { Text } from 'react-native';
+import { Appearance, Platform, Text } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { NavigationContainer } from '@react-navigation/native';
+import { DarkTheme, DefaultTheme, NavigationContainer, useTheme } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -11,15 +11,21 @@ import ListeScreen from './src/screens/ListeScreen';
 import DetayScreen from './src/screens/DetayScreen';
 import KaydedilenlerScreen from './src/screens/KaydedilenlerScreen';
 import { KAYIT_ANAHTARI, kayitGecerliMi, kayitlariCoz } from './src/utils/kayitlar';
+import { TEMA_ANAHTARI, acikRenkler, koyuRenkler, temaTercihiniCoz } from './src/utils/tema';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-function MainTabs({ kayitProps }) {
+function MainTabs({ kayitProps, temaProps }) {
+  const { colors } = useTheme();
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
-        tabBarActiveTintColor: '#22577a',
+        headerStyle: { backgroundColor: colors.card },
+        headerTintColor: colors.text,
+        tabBarStyle: { backgroundColor: colors.card, borderTopColor: colors.border },
+        tabBarActiveTintColor: colors.primary,
+        tabBarInactiveTintColor: colors.secondaryText,
         tabBarIcon: ({ color, size }) => (
           <Text style={{ color, fontSize: size }}>
             {route.name === 'Liste' ? '≡' : '☆'}
@@ -27,7 +33,9 @@ function MainTabs({ kayitProps }) {
         ),
       })}
     >
-      <Tab.Screen name="Liste" component={ListeScreen} />
+      <Tab.Screen name="Liste">
+        {(props) => <ListeScreen {...props} temaProps={temaProps} />}
+      </Tab.Screen>
       <Tab.Screen name="Kaydedilenler">
         {(props) => <KaydedilenlerScreen {...props} {...kayitProps} />}
       </Tab.Screen>
@@ -36,6 +44,80 @@ function MainTabs({ kayitProps }) {
 }
 
 export default function App() {
+  const [karanlik, setKaranlik] = useState(false);
+  const [temaYukleniyor, setTemaYukleniyor] = useState(true);
+  const [temaHazir, setTemaHazir] = useState(false);
+  const [temaKaydediliyor, setTemaKaydediliyor] = useState(false);
+  const [temaHatasi, setTemaHatasi] = useState('');
+  const [temaOkumaDenemesi, setTemaOkumaDenemesi] = useState(0);
+  const temaKilidi = useRef(false);
+
+  useEffect(() => {
+    let aktif = true;
+    async function temayiYukle() {
+      setTemaYukleniyor(true);
+      setTemaHazir(false);
+      setTemaHatasi('');
+      try {
+        const tercih = await AsyncStorage.getItem(TEMA_ANAHTARI);
+        const koyu = temaTercihiniCoz(tercih);
+        if (aktif) {
+          setKaranlik(koyu);
+          setTemaHazir(true);
+        }
+      } catch {
+        if (aktif) {
+          setTemaHatasi('Tema yüklenemedi. Lütfen tekrar deneyin.');
+        }
+      } finally {
+        if (aktif) {
+          setTemaYukleniyor(false);
+        }
+      }
+    }
+    temayiYukle();
+    return () => { aktif = false; };
+  }, [temaOkumaDenemesi]);
+
+  async function temaDegistir(yeniDeger) {
+    if (!temaHazir || temaKilidi.current) {
+      return;
+    }
+    temaKilidi.current = true;
+    setTemaKaydediliyor(true);
+    setTemaHatasi('');
+    try {
+      await AsyncStorage.setItem(TEMA_ANAHTARI, yeniDeger ? 'dark' : 'light');
+      setKaranlik(yeniDeger);
+    } catch {
+      setTemaHatasi('Tema kaydedilemedi. Lütfen tekrar deneyin.');
+    } finally {
+      temaKilidi.current = false;
+      setTemaKaydediliyor(false);
+    }
+  }
+
+  function temayiTekrarOku() {
+    setTemaOkumaDenemesi((sayi) => sayi + 1);
+  }
+
+  useEffect(() => {
+    const tercih = karanlik ? 'dark' : 'light';
+    if (Platform.OS === 'web') {
+      document.documentElement.style.colorScheme = tercih;
+    } else {
+      Appearance.setColorScheme(tercih);
+    }
+  }, [karanlik]);
+
+  const colors = karanlik ? koyuRenkler : acikRenkler;
+  const temelTema = karanlik ? DarkTheme : DefaultTheme;
+  const navigationTheme = { ...temelTema, colors: { ...temelTema.colors, ...colors } };
+  const temaProps = {
+    karanlik, temaYukleniyor, temaHazir, temaKaydediliyor,
+    temaHatasi, temaDegistir, temayiTekrarOku,
+  };
+
   const [kaydedilenler, setKaydedilenler] = useState([]);
   const [kayitlarYukleniyor, setKayitlarYukleniyor] = useState(true);
   const [kayitlarHazir, setKayitlarHazir] = useState(false);
@@ -119,16 +201,20 @@ export default function App() {
   };
 
   return (
-    <SafeAreaProvider>
-      <NavigationContainer>
-        <StatusBar style="dark" />
-        <Stack.Navigator>
+    <SafeAreaProvider style={{ flex: 1, backgroundColor: colors.background }}>
+      <NavigationContainer theme={navigationTheme}>
+        <StatusBar style={karanlik ? 'light' : 'dark'} />
+        <Stack.Navigator screenOptions={{
+          headerStyle: { backgroundColor: colors.card },
+          headerTintColor: colors.text,
+          contentStyle: { backgroundColor: colors.background },
+        }}>
           {/* Detay, sekmelerin üstünde açılır. */}
           <Stack.Screen
             name="MainTabs"
             options={{ headerShown: false }}
           >
-            {() => <MainTabs kayitProps={kayitProps} />}
+            {() => <MainTabs kayitProps={kayitProps} temaProps={temaProps} />}
           </Stack.Screen>
           <Stack.Screen
             name="Detay"

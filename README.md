@@ -5,12 +5,12 @@ Sakarya Üniversitesi BSM447 Mobil Uygulama Geliştirme dersi dönem ödevi.
 - Öğrenci numarası: **G211210575**
 - Konu: **K08 - Nobel Ödülleri**
 - Varyant: **b - Kimya**
-- Ek kural: **7 - Karanlık / Aydınlık Tema** (henüz uygulanmadı)
+- Ek kural: **7 - Karanlık / Aydınlık Tema**
 - Kalıcı veri yöntemi: **AsyncStorage 2.2.0**. Kaydedilen kayıtlar tüm detaylarıyla JSON olarak saklanır ve uygulama açıldığında geri yüklenir.
 
 ## Projenin mevcut durumu
 
-Phase 1, Phase 2, Phase 3 ve Phase 4 uygulandı. Uygulama geliştirme aşamasındadır; fiziksel Android telefon doğrulaması beklenmektedir.
+Phase 1–5 uygulandı. Uygulama geliştirme aşamasındadır; fiziksel Android telefon doğrulaması beklenmektedir.
 
 Çalışan özellikler:
 
@@ -27,8 +27,9 @@ Phase 1, Phase 2, Phase 3 ve Phase 4 uygulandı. Uygulama geliştirme aşamasın
 - Kaydedilenler ekranında kayıtları listeleme, aynı Detay ekranına geçiş ve Çıkar düğmesi.
 - Uygulama yeniden açıldığında kayıtları AsyncStorage'dan geri yükleme; API erişilemese de saklanan detayları gösterme.
 - Depolama okuma/yazma hatalarını gösterme; okuma tamamlanmadan kayıtları değiştirmeme ve yazma başarısızsa mevcut listeyi koruma.
-
-Karanlık / Aydınlık Tema ve tema tercihinin saklanması henüz uygulanmadı.
+- Liste ekranında Karanlık / Aydınlık Tema anahtarı; üç ekran, arama alanı, düğmeler, başlıklar ve alt sekmeler için ortak renkler.
+- Tema tercihini AsyncStorage'da kaydedilenlerden ayrı `@nobel-chemistry/tema/v1` anahtarında saklama ve açılışta geri yükleme. İlk kullanımda aydınlık tema seçilir.
+- Tema okuması tamamlanmadan anahtarı kilitleme; okuma hatasında Temayı tekrar yükle düğmesi. Yazma hatasında önceki temayı koruma ve hata mesajı gösterme.
 
 ## Veri kaynağı
 
@@ -58,15 +59,24 @@ Listeyi ve yıl sırasını kontrol edin. aziz ve AZIZ ile arama yapın; Aziz Sa
 
 Kaydet düğmesine basın; düğme Kaydedilenlerden çıkar olarak değişmelidir. Kaydedilenler sekmesinde aynı kaydı açın, çıkarın ve diğer ekrandaki durumunu kontrol edin. İki kayıt ekleyip uygulamayı tamamen kapatın ve uygulama verilerini silmeden yeniden açın. Kayıtların ve detaylarının kaldığını, çıkarılan kaydın tekrar açılışta gelmediğini doğrulayın. API erişilemediğinde Kaydedilenler'i deneyin; Expo Go geliştirme testinde Metro sunucusuna yerel erişim sürmelidir.
 
-Doğum tarihi, yaklaşık yaş ve kaydedilen veri doğrulamasının otomatik testlerini çalıştırmak için:
+Liste ekranındaki tema anahtarını açın. Detay ve Kaydedilenler'e geçerek yazıların, arama alanının, düğmelerin, başlıkların ve alt sekmelerin karanlık temada okunabildiğini kontrol edin. Uygulamayı tamamen kapatıp verilerini silmeden yeniden açın; karanlık tema ve kayıtlar korunmalıdır. Anahtarı kapatarak aydınlık tema için aynı adımları tekrarlayın. Telefonda klavye, durum çubuğu ve Android geri düğmesini de deneyin.
+
+Doğum tarihi, yaklaşık yaş, kaydedilen veri ve tema tercihi doğrulamasının; ayrıca metin renklerinin kontrastının otomatik testlerini çalıştırmak için:
 
 ```sh
 npm test
 ```
 
+## Doğrulama (23 Kasım 2026)
+
+- `npm test`: 88/88 test başarılı; 16 metin/zemin renk çiftinin kontrastı en az 4.5:1.
+- Geçici JSDOM ortamında gerçek Metro web paketiyle 11/11 çalışma kontrolü başarılı: canlı API, gezinme, arama, iki tema, kaydetme/çıkarma, yeniden açılış ve depolama hataları. Depolama arka ucu ve hata senaryoları bu testte simüle edilmiştir; bu bir Android cihaz testi değildir.
+- Android için `expo export` başarılı; bu çıktı APK değildir.
+- `expo-doctor`: 19/20 kontrol başarılı. Expo config schema kontrolü iki denemede de Expo API bağlantısındaki TLS hatası nedeniyle tamamlanamadı. SDK ve bağımlılıklar değiştirilmedi.
+- Fiziksel telefon ve görsel kontrol bekleniyor; Computer Use mevcut tarayıcı URL'sini doğrulayamadığından görsel inceleme tamamlanamadı.
+
 ## Tamamlanacak işler
 
-- Karanlık / Aydınlık Tema anahtarı ve tema seçiminin saklanması.
 - Uygulamaya özel simge, Android telefon ve APK testleri.
 
 ## Ekran görüntüleri

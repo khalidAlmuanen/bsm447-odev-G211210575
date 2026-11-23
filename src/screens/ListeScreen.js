@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
+import { useTheme } from '@react-navigation/native';
+import Button from '../components/UygulamaDugmesi';
 import {
   ActivityIndicator,
-  Button,
   FlatList,
   StyleSheet,
+  Switch,
   Text,
   TextInput,
   TouchableOpacity,
@@ -21,7 +23,13 @@ function yilGetir(kayit) {
   return Number(kayit.nobelPrizes?.[0]?.awardYear) || 0;
 }
 
-export default function ListeScreen({ navigation }) {
+export default function ListeScreen({ navigation, temaProps }) {
+  const { colors, dark } = useTheme();
+  const styles = stilleriOlustur(colors);
+  const {
+    karanlik, temaYukleniyor, temaHazir, temaKaydediliyor,
+    temaHatasi, temaDegistir, temayiTekrarOku,
+  } = temaProps;
   const [odulSahipleri, setOdulSahipleri] = useState([]);
   const [arama, setArama] = useState('');
   const [yukleniyor, setYukleniyor] = useState(true);
@@ -89,10 +97,33 @@ export default function ListeScreen({ navigation }) {
       <Text style={styles.description}>
         Ödül yılına göre yeniden eskiye
       </Text>
+      <View style={styles.themeRow}>
+        <Text style={styles.themeLabel}>{karanlik ? 'Karanlık tema' : 'Aydınlık tema'}</Text>
+        <Switch
+          accessibilityLabel="Karanlık tema"
+          value={karanlik}
+          onValueChange={temaDegistir}
+          disabled={!temaHazir || temaKaydediliyor}
+          trackColor={{ false: colors.switchTrackOff, true: colors.primary }}
+          thumbColor={colors.switchThumb}
+        />
+      </View>
+      {temaYukleniyor && <Text style={styles.themeMessage}>Tema yükleniyor...</Text>}
+      {temaKaydediliyor && <Text style={styles.themeMessage}>Tema kaydediliyor...</Text>}
+      {temaHatasi !== '' && (
+        <Text style={styles.error} accessibilityRole="alert">{temaHatasi}</Text>
+      )}
+      {!temaHazir && !temaYukleniyor && (
+        <View style={styles.themeRetry}>
+          <Button title="Temayı tekrar yükle" onPress={temayiTekrarOku} />
+        </View>
+      )}
       <TextInput
         style={styles.searchInput}
         placeholder="İsme göre ara..."
-        placeholderTextColor="#64748b"
+        placeholderTextColor={colors.placeholder}
+        selectionColor={colors.primary}
+        keyboardAppearance={dark ? 'dark' : 'light'}
         accessibilityLabel="Ödül sahibi ara"
         value={arama}
         onChangeText={setArama}
@@ -102,18 +133,17 @@ export default function ListeScreen({ navigation }) {
 
       {yukleniyor ? (
         <View style={styles.messageContainer}>
-          <ActivityIndicator size="large" color="#22577a" />
+          <ActivityIndicator size="large" color={colors.primary} />
           <Text style={styles.message}>Yükleniyor...</Text>
         </View>
       ) : hata ? (
         <View style={styles.messageContainer}>
-          <Text style={styles.message} accessibilityRole="alert">
+          <Text style={[styles.message, styles.error]} accessibilityRole="alert">
             {hata}
           </Text>
           <Button
             title="Tekrar dene"
             onPress={() => setYenileme(yenileme + 1)}
-            color="#22577a"
           />
         </View>
       ) : (
@@ -149,64 +179,89 @@ export default function ListeScreen({ navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    padding: 20,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#193549',
-    marginBottom: 8,
-  },
-  description: {
-    fontSize: 16,
-    lineHeight: 24,
-    color: '#475569',
-    marginBottom: 16,
-  },
-  searchInput: {
-    borderWidth: 1,
-    borderColor: '#94a3b8',
-    borderRadius: 8,
-    paddingHorizontal: 12,
-    paddingVertical: 10,
-    fontSize: 16,
-    color: '#193549',
-    marginBottom: 12,
-  },
-  listContent: {
-    flexGrow: 1,
-    paddingBottom: 16,
-  },
-  row: {
-    paddingVertical: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: '#e2e8f0',
-  },
-  name: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#193549',
-  },
-  year: {
-    fontSize: 15,
-    color: '#475569',
-    marginTop: 6,
-  },
-  messageContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-  },
-  message: {
-    fontSize: 16,
-    lineHeight: 24,
-    color: '#475569',
-    textAlign: 'center',
-    marginVertical: 16,
-  },
-});
+function stilleriOlustur(colors) {
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.background,
+      padding: 20,
+    },
+    title: {
+      fontSize: 24,
+      fontWeight: 'bold',
+      color: colors.text,
+      marginBottom: 8,
+    },
+    description: {
+      fontSize: 16,
+      lineHeight: 24,
+      color: colors.secondaryText,
+      marginBottom: 16,
+    },
+    searchInput: {
+      borderWidth: 1,
+      borderColor: colors.border,
+      backgroundColor: colors.inputBackground,
+      borderRadius: 8,
+      paddingHorizontal: 12,
+      paddingVertical: 10,
+      fontSize: 16,
+      color: colors.text,
+      marginBottom: 12,
+    },
+    listContent: {
+      flexGrow: 1,
+      paddingBottom: 16,
+    },
+    row: {
+      paddingVertical: 16,
+      borderBottomWidth: 1,
+      borderBottomColor: colors.border,
+    },
+    name: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      color: colors.text,
+    },
+    year: {
+      fontSize: 15,
+      color: colors.secondaryText,
+      marginTop: 6,
+    },
+    messageContainer: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      padding: 20,
+    },
+    message: {
+      fontSize: 16,
+      lineHeight: 24,
+      color: colors.secondaryText,
+      textAlign: 'center',
+      marginVertical: 16,
+    },
+    themeRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      marginBottom: 12,
+      minHeight: 44,
+    },
+    themeLabel: {
+      fontSize: 16,
+      color: colors.text,
+    },
+    themeMessage: {
+      color: colors.secondaryText,
+      marginBottom: 8,
+    },
+    error: {
+      color: colors.error,
+      marginBottom: 12,
+    },
+    themeRetry: {
+      marginBottom: 12,
+    },
+  });
+}

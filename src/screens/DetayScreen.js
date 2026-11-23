@@ -1,5 +1,7 @@
 import { useState } from 'react';
-import { Button, Linking, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Linking, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { useTheme } from '@react-navigation/native';
+import Button from '../components/UygulamaDugmesi';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { dogumBilgisiGetir, odulYasiniHesapla } from '../utils/odulYasi';
 
@@ -7,6 +9,8 @@ export default function DetayScreen({
   navigation, route, kaydedilenler, kayitlarYukleniyor, kayitlarHazir,
   kayitHatasi, kayitIslemiSuruyor, kaydiDegistir, kayitlariTekrarOku,
 }) {
+  const { colors } = useTheme();
+  const styles = stilleriOlustur(colors);
   const odulSahibi = route.params?.odulSahibi;
   const isim = odulSahibi?.knownName?.en || odulSahibi?.orgName?.en;
   const odul = odulSahibi?.nobelPrizes?.[0];
@@ -41,7 +45,6 @@ export default function DetayScreen({
                 title={kayitli ? 'Kaydedilenlerden çıkar' : 'Kaydet'}
                 onPress={() => kaydiDegistir(odulSahibi)}
                 disabled={!kayitlarHazir || kayitIslemiSuruyor}
-                color="#22577a"
               />
               {kayitlarYukleniyor && (
                 <Text style={styles.note}>Kaydedilenler yükleniyor...</Text>
@@ -55,7 +58,7 @@ export default function DetayScreen({
                 </Text>
               )}
               {!kayitlarHazir && !kayitlarYukleniyor && (
-                <Button title="Tekrar dene" onPress={kayitlariTekrarOku} color="#22577a" />
+                <Button title="Tekrar dene" onPress={kayitlariTekrarOku} />
               )}
             </View>
 
@@ -89,7 +92,7 @@ export default function DetayScreen({
             {wikipediaVar ? (
               <>
                 <Text selectable style={styles.url}>{wikipedia}</Text>
-                <Button title="Wikipedia'da aç" onPress={wikipediaAc} color="#22577a" />
+                <Button title="Wikipedia'da aç" onPress={wikipediaAc} />
               </>
             ) : (
               <Text style={styles.value}>Wikipedia bağlantısı bulunamadı.</Text>
@@ -107,62 +110,64 @@ export default function DetayScreen({
         )}
 
         <View style={styles.backButton}>
-          <Button title="Geri dön" onPress={() => navigation.goBack()} color="#22577a" />
+          <Button title="Geri dön" onPress={() => navigation.goBack()} />
         </View>
       </ScrollView>
     </SafeAreaView>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-  content: {
-    padding: 20,
-    paddingBottom: 32,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#193549',
-    marginBottom: 16,
-  },
-  label: {
-    fontSize: 14,
-    fontWeight: 'bold',
-    color: '#475569',
-    marginTop: 20,
-    marginBottom: 6,
-  },
-  value: {
-    fontSize: 16,
-    lineHeight: 24,
-    color: '#193549',
-  },
-  note: {
-    fontSize: 13,
-    lineHeight: 20,
-    color: '#475569',
-    marginTop: 6,
-  },
-  url: {
-    fontSize: 14,
-    lineHeight: 22,
-    color: '#22577a',
-    marginBottom: 12,
-  },
-  error: {
-    fontSize: 16,
-    lineHeight: 24,
-    color: '#b91c1c',
-    marginTop: 12,
-  },
-  backButton: {
-    marginTop: 28,
-  },
-  saveButton: {
-    marginBottom: 4,
-  },
-});
+function stilleriOlustur(colors) {
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.background,
+    },
+    content: {
+      padding: 20,
+      paddingBottom: 32,
+    },
+    title: {
+      fontSize: 24,
+      fontWeight: 'bold',
+      color: colors.text,
+      marginBottom: 16,
+    },
+    label: {
+      fontSize: 14,
+      fontWeight: 'bold',
+      color: colors.secondaryText,
+      marginTop: 20,
+      marginBottom: 6,
+    },
+    value: {
+      fontSize: 16,
+      lineHeight: 24,
+      color: colors.text,
+    },
+    note: {
+      fontSize: 13,
+      lineHeight: 20,
+      color: colors.secondaryText,
+      marginTop: 6,
+    },
+    url: {
+      fontSize: 14,
+      lineHeight: 22,
+      color: colors.primary,
+      marginBottom: 12,
+    },
+    error: {
+      fontSize: 16,
+      lineHeight: 24,
+      color: colors.error,
+      marginTop: 12,
+    },
+    backButton: {
+      marginTop: 28,
+    },
+    saveButton: {
+      marginBottom: 4,
+    },
+  });
+}
