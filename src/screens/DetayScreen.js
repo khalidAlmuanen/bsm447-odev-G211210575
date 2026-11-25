@@ -4,6 +4,7 @@ import { useTheme } from '@react-navigation/native';
 import Button from '../components/UygulamaDugmesi';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { dogumBilgisiGetir, odulYasiniHesapla } from '../utils/odulYasi';
+import { isimGetir, metinGetir, yilGetir } from '../utils/nobel';
 
 export default function DetayScreen({
   navigation, route, kaydedilenler, kayitlarYukleniyor, kayitlarHazir,
@@ -12,7 +13,7 @@ export default function DetayScreen({
   const { colors } = useTheme();
   const styles = stilleriOlustur(colors);
   const odulSahibi = route.params?.odulSahibi;
-  const isim = odulSahibi?.knownName?.en || odulSahibi?.orgName?.en;
+  const isim = isimGetir(odulSahibi);
   const odul = odulSahibi?.nobelPrizes?.[0];
   const dogum = dogumBilgisiGetir(odulSahibi?.birth?.date);
   const yas = odulYasiniHesapla(odulSahibi?.birth?.date, odul?.awardYear);
@@ -36,7 +37,7 @@ export default function DetayScreen({
   return (
     <SafeAreaView style={styles.container} edges={['left', 'right', 'bottom']}>
       <ScrollView contentContainerStyle={styles.content}>
-        <Text style={styles.title}>{isim || 'Ödül sahibi detayları'}</Text>
+        <Text style={styles.title}>{odulSahibi ? isim : 'Ödül sahibi detayları'}</Text>
 
         {odulSahibi ? (
           <>
@@ -62,46 +63,52 @@ export default function DetayScreen({
               )}
             </View>
 
-            <Text style={styles.label}>Ödül yılı</Text>
-            <Text style={styles.value}>{odul?.awardYear || 'Bilinmiyor'}</Text>
+            <View style={styles.card}>
+              <Text style={[styles.label, styles.firstLabel]}>Ödül yılı</Text>
+              <Text style={styles.value}>{yilGetir(odulSahibi) || 'Bilinmiyor'}</Text>
 
-            <Text style={styles.label}>Doğum tarihi</Text>
-            <Text style={styles.value}>{dogum.metin}</Text>
+              <Text style={styles.label}>Doğum tarihi</Text>
+              <Text style={styles.value}>{dogum.metin}</Text>
 
-            <Text style={styles.label}>Doğum ülkesi</Text>
-            <Text style={styles.value}>
-              {odulSahibi.birth?.place?.country?.en || 'Bilinmiyor'}
-            </Text>
-
-            <Text style={styles.label}>Ödül yılındaki yaş</Text>
-            <Text style={styles.value}>
-              {yas !== null ? `Ödülü yaklaşık ${yas} yaşında aldı.` : 'Yaş hesaplanamadı.'}
-            </Text>
-            {yas !== null && (
-              <Text style={styles.note}>
-                Doğum yılı ile ödül yılının farkına göre yaklaşık hesaplanmıştır.
+              <Text style={styles.label}>Doğum ülkesi</Text>
+              <Text style={styles.value}>
+                {metinGetir(odulSahibi.birth?.place?.country?.en)}
               </Text>
-            )}
 
-            <Text style={styles.label}>Ödül gerekçesi</Text>
-            <Text style={styles.value}>
-              {odul?.motivation?.en || 'Ödül gerekçesi bulunamadı.'}
-            </Text>
-
-            <Text style={styles.label}>Wikipedia</Text>
-            {wikipediaVar ? (
-              <>
-                <Text selectable style={styles.url}>{wikipedia}</Text>
-                <Button title="Wikipedia'da aç" onPress={wikipediaAc} />
-              </>
-            ) : (
-              <Text style={styles.value}>Wikipedia bağlantısı bulunamadı.</Text>
-            )}
-            {baglantiHatasi !== '' && (
-              <Text style={styles.error} accessibilityRole="alert">
-                {baglantiHatasi}
+              <Text style={styles.label}>Ödül yılındaki yaş</Text>
+              <Text style={styles.value}>
+                {yas !== null ? `Ödülü yaklaşık ${yas} yaşında aldı.` : 'Yaş hesaplanamadı.'}
               </Text>
-            )}
+              {yas !== null && (
+                <Text style={styles.note}>
+                  Doğum yılı ile ödül yılının farkına göre yaklaşık hesaplanmıştır.
+                </Text>
+              )}
+            </View>
+
+            <View style={styles.card}>
+              <Text style={[styles.label, styles.firstLabel]}>Ödül gerekçesi</Text>
+              <Text style={styles.value}>
+                {metinGetir(odul?.motivation?.en, 'Ödül gerekçesi bulunamadı.')}
+              </Text>
+            </View>
+
+            <View style={styles.card}>
+              <Text style={[styles.label, styles.firstLabel]}>Wikipedia</Text>
+              {wikipediaVar ? (
+                <>
+                  <Text selectable style={styles.url}>{wikipedia}</Text>
+                  <Button title="Wikipedia'da aç" onPress={wikipediaAc} />
+                </>
+              ) : (
+                <Text style={styles.value}>Wikipedia bağlantısı bulunamadı.</Text>
+              )}
+              {baglantiHatasi !== '' && (
+                <Text style={styles.error} accessibilityRole="alert">
+                  {baglantiHatasi}
+                </Text>
+              )}
+            </View>
           </>
         ) : (
           <Text style={styles.value}>
@@ -129,6 +136,7 @@ function stilleriOlustur(colors) {
     },
     title: {
       fontSize: 24,
+      lineHeight: 34,
       fontWeight: 'bold',
       color: colors.text,
       marginBottom: 16,
@@ -167,7 +175,18 @@ function stilleriOlustur(colors) {
       marginTop: 28,
     },
     saveButton: {
-      marginBottom: 4,
+      marginBottom: 20,
+    },
+    card: {
+      padding: 16,
+      marginBottom: 16,
+      borderRadius: 12,
+      borderWidth: 1,
+      borderColor: colors.border,
+      backgroundColor: colors.card,
+    },
+    firstLabel: {
+      marginTop: 0,
     },
   });
 }

@@ -10,7 +10,7 @@ Sakarya Üniversitesi BSM447 Mobil Uygulama Geliştirme dersi dönem ödevi.
 
 ## Projenin mevcut durumu
 
-Phase 1–5 uygulandı. Uygulama geliştirme aşamasındadır; fiziksel Android telefon doğrulaması beklenmektedir.
+Phase 1–6 uygulandı. Uygulamanın görünen adı **Nobel Kimya**. Fiziksel Android telefon doğrulaması ve teslim hazırlıkları beklenmektedir.
 
 Çalışan özellikler:
 
@@ -30,6 +30,10 @@ Phase 1–5 uygulandı. Uygulama geliştirme aşamasındadır; fiziksel Android 
 - Liste ekranında Karanlık / Aydınlık Tema anahtarı; üç ekran, arama alanı, düğmeler, başlıklar ve alt sekmeler için ortak renkler.
 - Tema tercihini AsyncStorage'da kaydedilenlerden ayrı `@nobel-chemistry/tema/v1` anahtarında saklama ve açılışta geri yükleme. İlk kullanımda aydınlık tema seçilir.
 - Tema okuması tamamlanmadan anahtarı kilitleme; okuma hatasında Temayı tekrar yükle düğmesi. Yazma hatasında önceki temayı koruma ve hata mesajı gösterme.
+- İki temada kart düzeni, güvenli ekran kenarları, en az 48 birim yüksekliğinde düğmeler ve açıklayıcı erişilebilirlik etiketleri.
+- API yanıtında geçersiz kayıtları eleme; eksik/bozuk metin ve yıl alanlarında güvenli yedek metinler. 20 saniyelik bağlantı zaman aşımı için ayrı mesaj ve yeniden deneme.
+- Kaydedilenler boşken simge ve nasıl kayıt ekleneceğini açıklayan metin.
+- Kimya şişesi çizimli özel uygulama simgesi; PNG dosyaları ve düzenlenebilir `assets/icon-source.svg` çizim kaynağı.
 
 ## Veri kaynağı
 
@@ -61,23 +65,27 @@ Kaydet düğmesine basın; düğme Kaydedilenlerden çıkar olarak değişmelidi
 
 Liste ekranındaki tema anahtarını açın. Detay ve Kaydedilenler'e geçerek yazıların, arama alanının, düğmelerin, başlıkların ve alt sekmelerin karanlık temada okunabildiğini kontrol edin. Uygulamayı tamamen kapatıp verilerini silmeden yeniden açın; karanlık tema ve kayıtlar korunmalıdır. Anahtarı kapatarak aydınlık tema için aynı adımları tekrarlayın. Telefonda klavye, durum çubuğu ve Android geri düğmesini de deneyin.
 
-Doğum tarihi, yaklaşık yaş, kaydedilen veri ve tema tercihi doğrulamasının; ayrıca metin renklerinin kontrastının otomatik testlerini çalıştırmak için:
+Küçük ekran ve büyük yazı boyutunda kartları, uzun adları ve Detay ekranının kaydırılmasını kontrol edin. API erişimini geçici olarak kesip hata mesajı ve Tekrar dene düğmesini deneyin; Metro erişimi sürmelidir. Android başlatıcısındaki uygulama simgesinin kontrolü APK aşamasında yapılacaktır.
+
+Doğum tarihi, yaklaşık yaş, kaydedilen veri, eksik/bozuk API alanlarının gösterimi ve tema tercihi doğrulamasının; ayrıca metin renklerinin kontrastının otomatik testlerini çalıştırmak için:
 
 ```sh
 npm test
 ```
 
-## Doğrulama (23 Kasım 2026)
+## Doğrulama (25 Kasım 2026)
 
-- `npm test`: 88/88 test başarılı; 16 metin/zemin renk çiftinin kontrastı en az 4.5:1.
-- Geçici JSDOM ortamında gerçek Metro web paketiyle 11/11 çalışma kontrolü başarılı: canlı API, gezinme, arama, iki tema, kaydetme/çıkarma, yeniden açılış ve depolama hataları. Depolama arka ucu ve hata senaryoları bu testte simüle edilmiştir; bu bir Android cihaz testi değildir.
+- `npm test`: 105/105 test başarılı; 16 metin/zemin renk çiftinin kontrastı en az 4.5:1.
+- Geçici JSDOM ortamında gerçek Metro web paketiyle 20/20 çalışma kontrolü başarılı: canlı API, gezinme, arama, iki tema, kaydetme/çıkarma, yeniden açılış, HTTP/JSON/yanıt biçimi hataları, boş liste, eksik alanlar ve depolama hataları. Depolama arka ucu ve hata senaryoları simüle edilmiştir; zaman aşımı sayacı testte hızlandırılmıştır. Bu bir Android cihaz testi değildir.
 - Android için `expo export` başarılı; bu çıktı APK değildir.
-- `expo-doctor`: 19/20 kontrol başarılı. Expo config schema kontrolü iki denemede de Expo API bağlantısındaki TLS hatası nedeniyle tamamlanamadı. SDK ve bağımlılıklar değiştirilmedi.
-- Fiziksel telefon ve görsel kontrol bekleniyor; Computer Use mevcut tarayıcı URL'sini doğrulayamadığından görsel inceleme tamamlanamadı.
+- `expo-doctor`: 20/20 kontrol başarılı. SDK ve bağımlılıklar değiştirilmedi.
+- Simgenin 1024×1024 boyutu, opak ana simge, saydam Android ön planı ve tek renkli katmanı doğrulandı; küçük boyut önizlemeleri incelendi.
+- Fiziksel telefon ve ekranların görsel kontrolü bekleniyor; Computer Use tarayıcı erişim hizmeti kullanılamadığından uygulamanın görsel incelemesi tamamlanamadı.
 
 ## Tamamlanacak işler
 
-- Uygulamaya özel simge, Android telefon ve APK testleri.
+- Android telefon, büyük yazı boyutu, gerçek ekran kaydırma/klavye ve APK testleri.
+- APK içinde uygulama adı ve başlatıcı simgesinin kontrolü.
 
 ## Ekran görüntüleri
 

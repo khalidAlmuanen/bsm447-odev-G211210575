@@ -1,9 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useTheme } from '@react-navigation/native';
 import Button from '../components/UygulamaDugmesi';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { isimGetir, yilGetir } from '../utils/nobel';
+import { kayitGecerliMi } from '../utils/kayitlar';
 import {
   ActivityIndicator,
   FlatList,
+  Keyboard,
   StyleSheet,
   Switch,
   Text,
@@ -14,14 +18,6 @@ import {
 
 const API_URL =
   'https://api.nobelprize.org/2.1/laureates?limit=30&nobelPrizeCategory=che';
-
-function isimGetir(kayit) {
-  return kayit.knownName?.en || kayit.orgName?.en || 'İsim bilgisi yok';
-}
-
-function yilGetir(kayit) {
-  return Number(kayit.nobelPrizes?.[0]?.awardYear) || 0;
-}
 
 export default function ListeScreen({ navigation, temaProps }) {
   const { colors, dark } = useTheme();
@@ -57,18 +53,23 @@ export default function ListeScreen({ navigation, temaProps }) {
           throw new Error('Laureates dizisi bulunamadı.');
         }
 
-        // filter yeni bir dizi üretir; API'den gelen dizi değişmez.
+        // Hatalı kayıtları ele; filter yeni dizi üretir, API dizisi değişmez.
         const liste = veri.laureates
-          .filter((kayit) => kayit?.id != null)
+          .filter(kayitGecerliMi)
           .sort((a, b) => yilGetir(b) - yilGetir(a));
+        if (veri.laureates.length > 0 && liste.length === 0) {
+          throw new Error('Geçerli Kimya kaydı bulunamadı.');
+        }
 
         if (aktif) {
           setOdulSahipleri(liste);
         }
-      } catch {
+      } catch (error) {
         if (aktif) {
           setOdulSahipleri([]);
-          setHata('Veriler alınamadı. İnternet bağlantınızı kontrol edip tekrar deneyin.');
+          setHata(error?.name === 'AbortError'
+            ? 'İstek zaman aşımına uğradı. Lütfen tekrar deneyin.'
+            : 'Veriler alınamadı. İnternet bağlantınızı kontrol edip tekrar deneyin.');
         }
       } finally {
         clearTimeout(zamanAsimi);
@@ -92,7 +93,7 @@ export default function ListeScreen({ navigation, temaProps }) {
   );
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['left', 'right']}>
       <Text style={styles.title}>Nobel Kimya Ödülleri</Text>
       <Text style={styles.description}>
         Ödül yılına göre yeniden eskiye
@@ -129,12 +130,13 @@ export default function ListeScreen({ navigation, temaProps }) {
         onChangeText={setArama}
         autoCapitalize="none"
         autoCorrect={false}
+        returnKeyType="search"
       />
 
       {yukleniyor ? (
         <View style={styles.messageContainer}>
           <ActivityIndicator size="large" color={colors.primary} />
-          <Text style={styles.message}>Yükleniyor...</Text>
+          <Text style={styles.message} accessibilityLiveRegion="polite">Yükleniyor...</Text>
         </View>
       ) : hata ? (
         <View style={styles.messageContainer}>
@@ -143,27 +145,34 @@ export default function ListeScreen({ navigation, temaProps }) {
           </Text>
           <Button
             title="Tekrar dene"
-            onPress={() => setYenileme(yenileme + 1)}
+            onPress={() => setYenileme((sayi) => sayi + 1)}
           />
         </View>
       ) : (
         <FlatList
+          style={styles.list}
           data={filtrelenmisListe}
           keyExtractor={(item) => String(item.id)}
           keyboardShouldPersistTaps="handled"
+          keyboardDismissMode="on-drag"
           contentContainerStyle={styles.listContent}
           renderItem={({ item }) => (
             <TouchableOpacity
               style={styles.row}
               accessibilityRole="button"
-              onPress={() =>
-                navigation.navigate('Detay', { odulSahibi: item, kaynak: 'Liste' })
-              }
+              accessibilityLabel={`${isimGetir(item)}, ödül yılı ${yilGetir(item) || 'bilinmiyor'}. Detayı aç`}
+              onPress={() => {
+                Keyboard.dismiss();
+                navigation.navigate('Detay', { odulSahibi: item, kaynak: 'Liste' });
+              }}
             >
-              <Text style={styles.name}>{isimGetir(item)}</Text>
-              <Text style={styles.year}>
-                Ödül yılı: {yilGetir(item) || 'Bilinmiyor'}
-              </Text>
+              <View style={styles.rowText}>
+                <Text style={styles.name}>{isimGetir(item)}</Text>
+                <Text style={styles.year}>
+                  Ödül yılı: {yilGetir(item) || 'Bilinmiyor'}
+                </Text>
+              </View>
+              <Text style={styles.chevron} accessible={false}>›</Text>
             </TouchableOpacity>
           )}
           ListEmptyComponent={
@@ -171,11 +180,14 @@ export default function ListeScreen({ navigation, temaProps }) {
               <Text style={styles.message}>
                 {aramaMetni ? 'Sonuç bulunamadı.' : 'Gösterilecek kayıt bulunamadı.'}
               </Text>
+              <Text style={styles.emptyHint}>
+                {aramaMetni ? 'Farklı bir isimle tekrar arayın.' : 'API şu anda bir kayıt döndürmedi.'}
+              </Text>
             </View>
           }
         />
       )}
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -199,6 +211,7 @@ function stilleriOlustur(colors) {
       marginBottom: 16,
     },
     searchInput: {
+      minHeight: 48,
       borderWidth: 1,
       borderColor: colors.border,
       backgroundColor: colors.inputBackground,
@@ -214,12 +227,30 @@ function stilleriOlustur(colors) {
       paddingBottom: 16,
     },
     row: {
-      paddingVertical: 16,
-      borderBottomWidth: 1,
-      borderBottomColor: colors.border,
+      flexDirection: 'row',
+      alignItems: 'center',
+      minHeight: 88,
+      padding: 16,
+      marginBottom: 12,
+      borderWidth: 1,
+      borderColor: colors.border,
+      borderRadius: 12,
+      backgroundColor: colors.card,
+    },
+    rowText: {
+      flex: 1,
+      marginRight: 12,
+    },
+    chevron: {
+      fontSize: 28,
+      color: colors.primary,
+    },
+    list: {
+      flex: 1,
     },
     name: {
       fontSize: 18,
+      lineHeight: 26,
       fontWeight: 'bold',
       color: colors.text,
     },
@@ -247,10 +278,18 @@ function stilleriOlustur(colors) {
       justifyContent: 'space-between',
       marginBottom: 12,
       minHeight: 44,
+      paddingHorizontal: 12,
+      paddingVertical: 8,
+      borderWidth: 1,
+      borderColor: colors.border,
+      borderRadius: 8,
+      backgroundColor: colors.card,
     },
     themeLabel: {
       fontSize: 16,
       color: colors.text,
+      flex: 1,
+      marginRight: 12,
     },
     themeMessage: {
       color: colors.secondaryText,
@@ -262,6 +301,12 @@ function stilleriOlustur(colors) {
     },
     themeRetry: {
       marginBottom: 12,
+    },
+    emptyHint: {
+      color: colors.secondaryText,
+      fontSize: 14,
+      lineHeight: 22,
+      textAlign: 'center',
     },
   });
 }

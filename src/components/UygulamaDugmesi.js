@@ -1,12 +1,13 @@
 import { useTheme } from '@react-navigation/native';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 
-export default function UygulamaDugmesi({ title, onPress, disabled = false }) {
+export default function UygulamaDugmesi({ title, onPress, disabled = false, accessibilityLabel = title }) {
   const { colors } = useTheme();
 
   return (
     <TouchableOpacity
       accessibilityRole="button"
+      accessibilityLabel={accessibilityLabel}
       accessibilityState={{ disabled }}
       disabled={disabled}
       onPress={onPress}
@@ -28,10 +29,10 @@ export default function UygulamaDugmesi({ title, onPress, disabled = false }) {
 
 const styles = StyleSheet.create({
   button: {
-    minHeight: 44,
+    minHeight: 48,
     paddingVertical: 12,
     paddingHorizontal: 16,
-    borderRadius: 6,
+    borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',
   },

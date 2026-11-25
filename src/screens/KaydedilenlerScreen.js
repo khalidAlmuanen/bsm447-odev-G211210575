@@ -3,6 +3,8 @@ import {
 } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import Button from '../components/UygulamaDugmesi';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { isimGetir, yilGetir } from '../utils/nobel';
 
 export default function KaydedilenlerScreen({
   navigation, kaydedilenler, kayitlarYukleniyor, kayitlarHazir,
@@ -11,7 +13,7 @@ export default function KaydedilenlerScreen({
   const { colors } = useTheme();
   const styles = stilleriOlustur(colors);
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['left', 'right']}>
       <Text style={styles.title}>Kaydedilenler</Text>
       {kayitHatasi !== '' && (
         <Text style={styles.error} accessibilityRole="alert">
@@ -21,7 +23,7 @@ export default function KaydedilenlerScreen({
       {kayitlarYukleniyor ? (
         <View style={styles.messageContainer}>
           <ActivityIndicator size="large" color={colors.primary} />
-          <Text style={styles.description}>Kaydedilenler yükleniyor...</Text>
+          <Text style={styles.description} accessibilityLiveRegion="polite">Kaydedilenler yükleniyor...</Text>
         </View>
       ) : !kayitlarHazir ? (
         <View style={styles.messageContainer}>
@@ -29,6 +31,7 @@ export default function KaydedilenlerScreen({
         </View>
       ) : (
         <FlatList
+          style={styles.list}
           data={kaydedilenler}
           keyExtractor={(item) => String(item.id)}
           contentContainerStyle={styles.listContent}
@@ -36,17 +39,19 @@ export default function KaydedilenlerScreen({
             <View style={styles.row}>
               <TouchableOpacity
                 accessibilityRole="button"
+                accessibilityLabel={`${isimGetir(item)}. Detayı aç`}
                 onPress={() => navigation.navigate('Detay', { odulSahibi: item })}
               >
                 <Text style={styles.name}>
-                  {item.knownName?.en || item.orgName?.en || 'İsim bilgisi yok'}
+                  {isimGetir(item)}
                 </Text>
                 <Text style={styles.description}>
-                  Ödül yılı: {item.nobelPrizes?.[0]?.awardYear || 'Bilinmiyor'}
+                  Ödül yılı: {yilGetir(item) || 'Bilinmiyor'}
                 </Text>
               </TouchableOpacity>
               <Button
                 title="Çıkar"
+                accessibilityLabel={`${isimGetir(item)} kaydını çıkar`}
                 onPress={() => kayitSil(item.id)}
                 disabled={kayitIslemiSuruyor}
               />
@@ -54,12 +59,16 @@ export default function KaydedilenlerScreen({
           )}
           ListEmptyComponent={
             <View style={styles.messageContainer}>
+              <Text style={styles.emptyIcon} accessible={false}>☆</Text>
               <Text style={styles.description}>Henüz kaydedilen bir ödül sahibi yok.</Text>
+              <Text style={styles.emptyHint}>
+                Liste ekranından bir ödül sahibi seçip Kaydet'e basın.
+              </Text>
             </View>
           }
         />
       )}
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -87,12 +96,19 @@ function stilleriOlustur(colors) {
       paddingBottom: 16,
     },
     row: {
-      paddingVertical: 16,
-      borderBottomWidth: 1,
-      borderBottomColor: colors.border,
+      padding: 16,
+      marginBottom: 12,
+      borderWidth: 1,
+      borderColor: colors.border,
+      borderRadius: 12,
+      backgroundColor: colors.card,
+    },
+    list: {
+      flex: 1,
     },
     name: {
       fontSize: 18,
+      lineHeight: 26,
       fontWeight: 'bold',
       color: colors.text,
     },
@@ -107,6 +123,16 @@ function stilleriOlustur(colors) {
       justifyContent: 'center',
       alignItems: 'center',
       padding: 20,
+    },
+    emptyIcon: {
+      fontSize: 48,
+      color: colors.primary,
+    },
+    emptyHint: {
+      fontSize: 14,
+      lineHeight: 22,
+      color: colors.secondaryText,
+      textAlign: 'center',
     },
   });
 }

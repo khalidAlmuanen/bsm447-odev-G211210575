@@ -26,9 +26,9 @@ function MainTabs({ kayitProps, temaProps }) {
         tabBarStyle: { backgroundColor: colors.card, borderTopColor: colors.border },
         tabBarActiveTintColor: colors.primary,
         tabBarInactiveTintColor: colors.secondaryText,
-        tabBarIcon: ({ color, size }) => (
-          <Text style={{ color, fontSize: size }}>
-            {route.name === 'Liste' ? '≡' : '☆'}
+        tabBarIcon: ({ color, size, focused }) => (
+          <Text accessible={false} style={{ color, fontSize: size }}>
+            {route.name === 'Liste' ? '≡' : focused ? '★' : '☆'}
           </Text>
         ),
       })}
