@@ -10,6 +10,8 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.khalidalmuanen.nobelchemistry",
+      "versionCode": 1,
       "adaptiveIcon": {
         "backgroundColor": "#22577a",
         "foregroundImage": "./assets/android-icon-foreground.png",
@@ -19,6 +21,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "7ae680e7-dcb5-475d-bb33-0734b8dd7fac"
+      }
+    },
+    "owner": "khalid_almuanen"
   }
 }

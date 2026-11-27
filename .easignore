@@ -1,0 +1,68 @@
+# Build archive exclusions; keep the Git exclusions below.
+# Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
+
+# dependencies
+node_modules/
+
+# Expo
+.expo/
+dist/
+web-build/
+expo-env.d.ts
+
+# Native
+.kotlin/
+*.orig.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+
+# Metro
+.metro-health-check*
+
+# debug
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+
+# macOS
+.DS_Store
+*.pem
+
+# local env files
+.env*.local
+
+# typescript
+*.tsbuildinfo
+
+# generated native folders
+/ios
+/android
+
+# Local project notes
+/REQUIREMENTS.md
+/BSM447_Donem_Odevi.pdf
+
+# Environment variables and credentials
+.env
+.env.*
+credentials.json
+*.keystore
+*.pfx
+
+# Temporary files and generated output
+/tmp/
+/temp/
+/coverage/
+/build/
+*.tmp
+*.log
+*.apk
+*.aab
+/G211210575_BSM447.zip
+
+# Documentation media is published on GitHub, not bundled in the APK.
+/docs/
+.git/
