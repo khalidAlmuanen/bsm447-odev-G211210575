@@ -2,6 +2,8 @@
 
 Sakarya Üniversitesi BSM447 Mobil Uygulama Geliştirme dersi dönem ödevi.
 
+[GitHub kaynak deposu](https://github.com/khalidAlmuanen/bsm447-odev-G211210575)
+
 - Öğrenci numarası: **G211210575**
 - Konu: **K08 - Nobel Ödülleri**
 - Varyant: **b - Kimya**
@@ -10,7 +12,7 @@ Sakarya Üniversitesi BSM447 Mobil Uygulama Geliştirme dersi dönem ödevi.
 
 ## Projenin mevcut durumu
 
-Phase 1–6 uygulandı. Uygulamanın görünen adı **Nobel Kimya**. Fiziksel Android telefon doğrulaması ve teslim hazırlıkları beklenmektedir.
+Phase 1–6 uygulandı; Phase 7 için imzalı APK, Android emülatör testi, gerçek ekran görüntüleri ve ekran kaydı hazırlandı. Uygulamanın görünen adı **Nobel Kimya**. Fiziksel telefon testi ve OBİS teslimi öğrenci tarafından tamamlanmalıdır.
 
 Çalışan özellikler:
 
@@ -73,39 +75,72 @@ Doğum tarihi, yaklaşık yaş, kaydedilen veri, eksik/bozuk API alanlarının g
 npm test
 ```
 
-## Doğrulama (25 Kasım 2026)
+## Doğrulama
 
-- `npm test`: 105/105 test başarılı; 16 metin/zemin renk çiftinin kontrastı en az 4.5:1.
-- Geçici JSDOM ortamında gerçek Metro web paketiyle 20/20 çalışma kontrolü başarılı: canlı API, gezinme, arama, iki tema, kaydetme/çıkarma, yeniden açılış, HTTP/JSON/yanıt biçimi hataları, boş liste, eksik alanlar ve depolama hataları. Depolama arka ucu ve hata senaryoları simüle edilmiştir; zaman aşımı sayacı testte hızlandırılmıştır. Bu bir Android cihaz testi değildir.
-- Android için `expo export` başarılı; bu çıktı APK değildir.
-- `expo-doctor`: 20/20 kontrol başarılı. SDK ve bağımlılıklar değiştirilmedi.
-- Simgenin 1024×1024 boyutu, opak ana simge, saydam Android ön planı ve tek renkli katmanı doğrulandı; küçük boyut önizlemeleri incelendi.
-- Fiziksel telefon ve ekranların görsel kontrolü bekleniyor; Computer Use tarayıcı erişim hizmeti kullanılamadığından uygulamanın görsel incelemesi tamamlanamadı.
+- 27 Kasım 2026: `npm test` **105/105** başarılı. Git arşivinden ayrı klasöre çıkarılan kaynakta `npm ci` ve aynı **105/105** test de başarılı.
+- 27 Kasım: EAS `preview` APK derlemesi başarılı; arşiv bütünlüğü, paket/sürüm bilgileri ve APK v2 imzası doğrulandı.
+- Android 13 / API 33, x86_64 emülatörde gerçek APK kuruldu ve çalıştırıldı. Canlı liste ve yıl sırası, `AZIZ` araması, Aziz Sancar'ın detayları ve yaklaşık 69 yaşı, kaydetme, çıkarma, boş kayıt listesi, sistem geri düğmesi ve iki tema kontrol edildi. Kayıtların, silmenin ve her iki tema seçiminin uygulama durdurulup yeniden açıldığında korunduğu doğrulandı.
+- Emülatörün Wi-Fi ve mobil verisi kapatılıp uygulama yeniden açıldı: API hata mesajı görülürken iki kayıt ve Aziz Sancar'ın tam detayları Kaydedilenler'den açıldı. Bağlantı geri getirildikten sonra Tekrar dene canlı listeyi yeniden yükledi.
+- İlk klavye açılışında ANR görüldü; Android raporunda yüksek bellek baskısı vardı. Sonraki tekrar testleri geçti. Fiziksel telefon performansı ve büyük yazı boyutu kontrolü bekliyor.
+- 27 Kasım: `expo-doctor` **18/20**. Expo config schema kontrolü bağlantı hatasıyla tamamlanamadı; diğer uyarı önerilen Expo `~58.1.0` ile kurulu `58.0.26` farkıydı. SDK/bağımlılıklar değiştirilmedi; mevcut sürümle APK derlendi ve emülatörde test edildi.
+- 25 Kasım: Geçici JSDOM ortamında gerçek Metro web paketiyle **20/20** çalışma kontrolü başarılıydı: API, gezinme, arama, temalar, kalıcılık, HTTP/JSON/yanıt hataları, boş liste, eksik alanlar ve depolama hataları. Bu kontrollerde depolama/hata senaryoları simüle edildi; zaman aşımı hızlandırıldı.
 
 ## Tamamlanacak işler
 
-- Android telefon, büyük yazı boyutu, gerçek ekran kaydırma/klavye ve APK testleri.
-- APK içinde uygulama adı ve başlatıcı simgesinin kontrolü.
+- Fiziksel Android telefonda klavye, performans, büyük yazı boyutu ve başlatıcı simgesi kontrolü.
+- En az 10 gerçek farklı günde anlamlı Git çalışması şartını tamamlama; tarihler değiştirilmez.
+- OBİS'e ZIP yükleme ve başarılı teslimi kişisel olarak doğrulama.
+- Phase 8: canlı sınav görevlerine ayrı çalışma kopyasında hazırlanma.
 
 ## Ekran görüntüleri
 
-Ödev için uygulamadan alınmış üç gerçek ekran görüntüsü eklenecek:
+27 Kasım 2026'da Android 13 emülatörde, aşağıda bağlantısı verilen gerçek APK'dan alındı. Kaydedilenler görüntüsü karanlık temadadır.
 
-1. Liste: henüz eklenmedi.
-2. Detay: henüz eklenmedi.
-3. Kaydedilenler: henüz eklenmedi.
+<img src="docs/liste.png" alt="Liste: Nobel Kimya ödülleri" width="240" />
+<img src="docs/detay.png" alt="Detay: Aziz Sancar ve yaklaşık ödül yaşı" width="240" />
+<img src="docs/kaydedilenler.png" alt="Kaydedilenler: karanlık tema" width="240" />
 
 ## APK indirme bağlantısı
 
-Henüz APK üretilmedi; gerçek indirme bağlantısı eklenecek.
+[Nobel Kimya 1.0.0 APK indir](https://expo.dev/artifacts/eas/-T7817AdA-wSITDPi0DvzWWYl6-ZtshGEQx8hCqFG1o.apk)
+
+[EAS build ayrıntıları](https://expo.dev/accounts/khalid_almuanen/projects/nobel-chemistry/builds/4e0402c9-d387-4754-bc9e-804a9c20ea90)
+
+- Profil: `preview`, sürüm: `1.0.0`, `versionCode: 1`.
+- Uygulama ve yapılandırma commit'i: `7bda615`.
+- Boyut: 76.883.157 bayt; APK ZIP bütünlüğü ve v2 imzası doğrulandı.
+- SHA-256: `c5678637f6e0fbdce9f678c0adc2db498faa8696abb8bf6f37ff39908e8ff3c0`.
+
+## APK üretimi
+
+`eas.json` içindeki `preview`, `distribution: internal` ve `android.buildType: apk` kullanır. Android uygulama kimliği `com.khalidalmuanen.nobelchemistry`, sürüm kodu `1`'dir. Proje EAS üzerinde `@khalid_almuanen/nobel-chemistry` hesabına bağlıdır. Anahtar ve parolalar depoda tutulmaz; imzalama EAS tarafından yönetilir.
+
+Yetkili Expo hesabıyla:
+
+```sh
+npx eas-cli@27.11.0 login
+npx eas-cli@27.11.0 build -p android --profile preview
+```
+
+APK, Expo Go yerine ayrı bir uygulama olarak kurulur. Yapılandırma için [Expo APK rehberi](https://docs.expo.dev/build-reference/apk/) kullanılabilir. `.easignore`, yerel notları, ödev PDF'sini, bağımlılıkları, sırları ve GitHub'daki dokümantasyon medyasını derleme arşivinden çıkarır.
 
 ## Ekran kaydı
 
-Henüz hazırlanmadı; gerçek kayıt bağlantısı eklenecek. Kayıt Liste, Detay ve Kaydedilenler ekranlarını göstermeli ve en fazla 1 dakika sürmelidir.
+[Gerçek APK ekran kaydını izle / indir](https://github.com/khalidAlmuanen/bsm447-odev-G211210575/raw/refs/heads/master/docs/ekran-kaydi.mp4)
+
+Yaklaşık **47 saniye**, 720×1560; Android 13 emülatörden doğrudan alındı. Liste, David Baker'ın detayları, Kaydet, Kaydedilenler ve karanlık temaya geçiş gösterilir. Uygulamanın gerçek çalışması kaydedildi.
 
 ## Teslim
 
 Teslim dosyası: G211210575_BSM447.zip. node_modules ve .expo klasörleri ZIP'e eklenmez. Son teslim 15 Aralık 2026, saat 23.59; ZIP dosyası OBİS'e yüklenmelidir.
+
+Git'e alınmış son sürümden ZIP'i yeniden üretmek için:
+
+```sh
+git archive --format=zip --output=G211210575_BSM447.zip HEAD
+```
+
+Bu komut yalnızca seçilen commit'in dosyalarını ekler; `.git`, `node_modules`, `.expo` ve yerel checklist/PDF arşive girmez. ZIP'i açıp `npm ci` ve `npm test` ile kontrol edin. OBİS yüklemesini öğrenci kendisi yapmalı ve başarılı teslimi doğrulamalıdır.
 
 ## Lisans bildirimi
 
