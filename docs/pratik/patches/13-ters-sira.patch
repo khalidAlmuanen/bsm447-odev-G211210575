@@ -1,0 +1,37 @@
+diff --git a/src/screens/ListeScreen.js b/src/screens/ListeScreen.js
+--- a/src/screens/ListeScreen.js
++++ b/src/screens/ListeScreen.js
+@@ -26,6 +26,7 @@
+     karanlik, temaYukleniyor, temaHazir, temaKaydediliyor,
+     temaHatasi, temaDegistir, temayiTekrarOku,
+   } = temaProps;
++  const [ters, setTers] = useState(false);
+   const [odulSahipleri, setOdulSahipleri] = useState([]);
+   const [arama, setArama] = useState('');
+   const [yukleniyor, setYukleniyor] = useState(true);
+@@ -91,6 +92,8 @@
+   const filtrelenmisListe = odulSahipleri.filter((kayit) =>
+     isimGetir(kayit).toLowerCase().includes(aramaMetni)
+   );
++
++  const gosterilecekListe = ters ? [...filtrelenmisListe].reverse() : filtrelenmisListe;
+ 
+   return (
+     <SafeAreaView style={styles.container} edges={['left', 'right']}>
+@@ -119,6 +122,7 @@
+           <Button title="Temayı tekrar yükle" onPress={temayiTekrarOku} />
+         </View>
+       )}
++      <Button title="Sırayı ters çevir" onPress={() => setTers((deger) => !deger)} />
+       <TextInput
+         style={styles.searchInput}
+         placeholder="İsme göre ara..."
+@@ -151,7 +155,7 @@
+       ) : (
+         <FlatList
+           style={styles.list}
+-          data={filtrelenmisListe}
++          data={gosterilecekListe}
+           keyExtractor={(item) => String(item.id)}
+           keyboardShouldPersistTaps="handled"
+           keyboardDismissMode="on-drag"

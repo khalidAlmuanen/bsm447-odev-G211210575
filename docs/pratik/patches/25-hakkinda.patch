@@ -1,0 +1,55 @@
+diff --git a/src/screens/ListeScreen.js b/src/screens/ListeScreen.js
+--- a/src/screens/ListeScreen.js
++++ b/src/screens/ListeScreen.js
+@@ -119,6 +119,7 @@
+           <Button title="Temayı tekrar yükle" onPress={temayiTekrarOku} />
+         </View>
+       )}
++      <Button title="Hakkında" onPress={() => navigation.navigate('Hakkında')} />
+       <TextInput
+         style={styles.searchInput}
+         placeholder="İsme göre ara..."
+diff --git a/App.js b/App.js
+--- a/App.js
++++ b/App.js
+@@ -7,6 +7,7 @@
+ import { createNativeStackNavigator } from '@react-navigation/native-stack';
+ import { SafeAreaProvider } from 'react-native-safe-area-context';
+ 
++import HakkindaScreen from './src/screens/HakkindaScreen';
+ import ListeScreen from './src/screens/ListeScreen';
+ import DetayScreen from './src/screens/DetayScreen';
+ import KaydedilenlerScreen from './src/screens/KaydedilenlerScreen';
+@@ -216,6 +217,7 @@
+           >
+             {() => <MainTabs kayitProps={kayitProps} temaProps={temaProps} />}
+           </Stack.Screen>
++          <Stack.Screen name="Hakkında" component={HakkindaScreen} />
+           <Stack.Screen
+             name="Detay"
+             options={{ headerBackTitle: 'Geri' }}
+diff --git a/src/screens/HakkindaScreen.js b/src/screens/HakkindaScreen.js
+new file mode 100644
+--- /dev/null
++++ b/src/screens/HakkindaScreen.js
+@@ -0,0 +1,20 @@
++import { StyleSheet, Text } from 'react-native';
++import { SafeAreaView } from 'react-native-safe-area-context';
++import { useTheme } from '@react-navigation/native';
++import appConfig from '../../app.json';
++
++export default function HakkindaScreen() {
++  const { colors } = useTheme();
++  return (
++    <SafeAreaView edges={['left', 'right', 'bottom']} style={[styles.container, { backgroundColor: colors.background }]}>
++      <Text style={[styles.text, { color: colors.text }]}>KHALID ALMUANEN</Text>
++      <Text style={[styles.text, { color: colors.text }]}>G211210575</Text>
++      <Text style={[styles.text, { color: colors.text }]}>Sürüm: {appConfig.expo.version}</Text>
++    </SafeAreaView>
++  );
++}
++
++const styles = StyleSheet.create({
++  container: { flex: 1, padding: 20 },
++  text: { fontSize: 18, lineHeight: 28, marginBottom: 12 },
++});

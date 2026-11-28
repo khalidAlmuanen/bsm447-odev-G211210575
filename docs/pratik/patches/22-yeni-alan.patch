@@ -1,0 +1,13 @@
+diff --git a/src/screens/DetayScreen.js b/src/screens/DetayScreen.js
+--- a/src/screens/DetayScreen.js
++++ b/src/screens/DetayScreen.js
+@@ -74,6 +74,9 @@
+               <Text style={styles.value}>
+                 {metinGetir(odulSahibi.birth?.place?.country?.en)}
+               </Text>
++
++              <Text style={styles.label}>Doğum şehri</Text>
++              <Text style={styles.value}>{metinGetir(odulSahibi.birth?.place?.city?.en)}</Text>
+ 
+               <Text style={styles.label}>Ödül yılındaki yaş</Text>
+               <Text style={styles.value}>

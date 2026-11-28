@@ -1,0 +1,14 @@
+diff --git a/src/screens/ListeScreen.js b/src/screens/ListeScreen.js
+--- a/src/screens/ListeScreen.js
++++ b/src/screens/ListeScreen.js
+@@ -135,8 +135,8 @@
+ 
+       {yukleniyor ? (
+         <View style={styles.messageContainer}>
+-          <ActivityIndicator size="large" color={colors.primary} />
+-          <Text style={styles.message} accessibilityLiveRegion="polite">Yükleniyor...</Text>
++          <ActivityIndicator size="large" color={colors.primary} accessibilityLabel="Veriler yükleniyor" />
++          <Text style={styles.message} accessibilityLiveRegion="polite">Yükleniyor…</Text>
+         </View>
+       ) : hata ? (
+         <View style={styles.messageContainer}>

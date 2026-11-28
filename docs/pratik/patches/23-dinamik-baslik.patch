@@ -1,0 +1,20 @@
+diff --git a/App.js b/App.js
+--- a/App.js
++++ b/App.js
+@@ -10,6 +10,7 @@
+ import ListeScreen from './src/screens/ListeScreen';
+ import DetayScreen from './src/screens/DetayScreen';
+ import KaydedilenlerScreen from './src/screens/KaydedilenlerScreen';
++import { isimGetir } from './src/utils/nobel';
+ import { KAYIT_ANAHTARI, kayitGecerliMi, kayitlariCoz } from './src/utils/kayitlar';
+ import { TEMA_ANAHTARI, acikRenkler, koyuRenkler, temaTercihiniCoz } from './src/utils/tema';
+ 
+@@ -218,7 +219,7 @@
+           </Stack.Screen>
+           <Stack.Screen
+             name="Detay"
+-            options={{ headerBackTitle: 'Geri' }}
++            options={({ route }) => ({ headerBackTitle: 'Geri', title: isimGetir(route.params?.odulSahibi) })}
+           >
+             {(props) => <DetayScreen {...props} {...kayitProps} />}
+           </Stack.Screen>

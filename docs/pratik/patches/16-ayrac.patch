@@ -1,0 +1,11 @@
+diff --git a/src/screens/ListeScreen.js b/src/screens/ListeScreen.js
+--- a/src/screens/ListeScreen.js
++++ b/src/screens/ListeScreen.js
+@@ -153,6 +153,7 @@
+           style={styles.list}
+           data={filtrelenmisListe}
+           keyExtractor={(item) => String(item.id)}
++          ItemSeparatorComponent={() => <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: colors.border, marginBottom: 12 }} />}
+           keyboardShouldPersistTaps="handled"
+           keyboardDismissMode="on-drag"
+           contentContainerStyle={styles.listContent}

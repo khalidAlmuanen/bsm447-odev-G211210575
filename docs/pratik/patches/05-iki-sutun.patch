@@ -1,0 +1,42 @@
+diff --git a/src/screens/DetayScreen.js b/src/screens/DetayScreen.js
+--- a/src/screens/DetayScreen.js
++++ b/src/screens/DetayScreen.js
+@@ -64,16 +64,18 @@
+             </View>
+ 
+             <View style={styles.card}>
+-              <Text style={[styles.label, styles.firstLabel]}>Ödül yılı</Text>
+-              <Text style={styles.value}>{yilGetir(odulSahibi) || 'Bilinmiyor'}</Text>
+-
+-              <Text style={styles.label}>Doğum tarihi</Text>
+-              <Text style={styles.value}>{dogum.metin}</Text>
+-
+-              <Text style={styles.label}>Doğum ülkesi</Text>
+-              <Text style={styles.value}>
+-                {metinGetir(odulSahibi.birth?.place?.country?.en)}
+-              </Text>
++              <View style={styles.infoRow}>
++                <Text style={styles.infoLabel}>Ödül yılı</Text>
++                <Text style={styles.infoValue}>{yilGetir(odulSahibi) || 'Bilinmiyor'}</Text>
++              </View>
++              <View style={styles.infoRow}>
++                <Text style={styles.infoLabel}>Doğum tarihi</Text>
++                <Text style={styles.infoValue}>{dogum.metin}</Text>
++              </View>
++              <View style={styles.infoRow}>
++                <Text style={styles.infoLabel}>Doğum ülkesi</Text>
++                <Text style={styles.infoValue}>{metinGetir(odulSahibi.birth?.place?.country?.en)}</Text>
++              </View>
+ 
+               <Text style={styles.label}>Ödül yılındaki yaş</Text>
+               <Text style={styles.value}>
+@@ -185,6 +187,9 @@
+       borderColor: colors.border,
+       backgroundColor: colors.card,
+     },
++    infoRow: { flexDirection: 'row', marginVertical: 8 },
++    infoLabel: { flex: 1, color: colors.secondaryText, fontWeight: 'bold' },
++    infoValue: { flex: 1, color: colors.text, textAlign: 'right' },
+     firstLabel: {
+       marginTop: 0,
+     },

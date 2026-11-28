@@ -1,0 +1,63 @@
+diff --git a/src/screens/ListeScreen.js b/src/screens/ListeScreen.js
+--- a/src/screens/ListeScreen.js
++++ b/src/screens/ListeScreen.js
+@@ -1,3 +1,4 @@
++import AsyncStorage from '@react-native-async-storage/async-storage';
+ import { useEffect, useState } from 'react';
+ import { useTheme } from '@react-navigation/native';
+ import Button from '../components/UygulamaDugmesi';
+@@ -16,6 +17,8 @@
+   View,
+ } from 'react-native';
+ 
++const SON_ARAMA_ANAHTARI = '@nobel-chemistry/son-arama/v1';
++
+ const API_URL =
+   'https://api.nobelprize.org/2.1/laureates?limit=30&nobelPrizeCategory=che';
+ 
+@@ -26,11 +29,27 @@
+     karanlik, temaYukleniyor, temaHazir, temaKaydediliyor,
+     temaHatasi, temaDegistir, temayiTekrarOku,
+   } = temaProps;
++  const [aramaHazir, setAramaHazir] = useState(false);
++  const [sonAramaHatasi, setSonAramaHatasi] = useState('');
+   const [odulSahipleri, setOdulSahipleri] = useState([]);
+   const [arama, setArama] = useState('');
+   const [yukleniyor, setYukleniyor] = useState(true);
+   const [hata, setHata] = useState('');
+   const [yenileme, setYenileme] = useState(0);
++
++  useEffect(() => {
++    let aktif = true;
++    AsyncStorage.getItem(SON_ARAMA_ANAHTARI).then((deger) => {
++      if (aktif) { setArama(deger ?? ''); setAramaHazir(true); }
++    }).catch(() => { if (aktif) setSonAramaHatasi('Son arama yüklenemedi. Uygulamayı yeniden açın.'); });
++    return () => { aktif = false; };
++  }, []);
++
++  useEffect(() => {
++    if (!aramaHazir) return;
++    AsyncStorage.setItem(SON_ARAMA_ANAHTARI, arama)
++      .catch(() => setSonAramaHatasi('Son arama kaydedilemedi.'));
++  }, [arama, aramaHazir]);
+ 
+   useEffect(() => {
+     let aktif = true;
+@@ -119,6 +138,7 @@
+           <Button title="Temayı tekrar yükle" onPress={temayiTekrarOku} />
+         </View>
+       )}
++      {sonAramaHatasi !== '' && <Text style={styles.error} accessibilityRole="alert">{sonAramaHatasi}</Text>}
+       <TextInput
+         style={styles.searchInput}
+         placeholder="İsme göre ara..."
+@@ -127,7 +147,8 @@
+         keyboardAppearance={dark ? 'dark' : 'light'}
+         accessibilityLabel="Ödül sahibi ara"
+         value={arama}
+-        onChangeText={setArama}
++        editable={aramaHazir}
++        onChangeText={aramaHazir ? setArama : undefined}
+         autoCapitalize="none"
+         autoCorrect={false}
+         returnKeyType="search"

@@ -1,0 +1,23 @@
+diff --git a/src/screens/KaydedilenlerScreen.js b/src/screens/KaydedilenlerScreen.js
+--- a/src/screens/KaydedilenlerScreen.js
++++ b/src/screens/KaydedilenlerScreen.js
+@@ -12,6 +12,10 @@
+ }) {
+   const { colors } = useTheme();
+   const styles = stilleriOlustur(colors);
++  function detayiAc(item) {
++    navigation.navigate('Detay', { odulSahibi: item });
++  }
++
+   return (
+     <SafeAreaView style={styles.container} edges={['left', 'right']}>
+       <Text style={styles.title}>Kaydedilenler</Text>
+@@ -40,7 +44,7 @@
+               <TouchableOpacity
+                 accessibilityRole="button"
+                 accessibilityLabel={`${isimGetir(item)}. Detayı aç`}
+-                onPress={() => navigation.navigate('Detay', { odulSahibi: item })}
++                onPress={() => detayiAc(item)}
+               >
+                 <Text style={styles.name}>
+                   {isimGetir(item)}

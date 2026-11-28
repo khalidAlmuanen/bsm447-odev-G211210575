@@ -1,0 +1,23 @@
+diff --git a/src/screens/DetayScreen.js b/src/screens/DetayScreen.js
+--- a/src/screens/DetayScreen.js
++++ b/src/screens/DetayScreen.js
+@@ -20,6 +20,7 @@
+   const wikipedia = odulSahibi?.wikipedia?.english;
+   const wikipediaVar = typeof wikipedia === 'string'
+     && /^https:\/\/en\.wikipedia\.org\/wiki\/\S+$/i.test(wikipedia);
++  const [metinAcik, setMetinAcik] = useState(false);
+   const [baglantiHatasi, setBaglantiHatasi] = useState('');
+   const kayitli = odulSahibi && kaydedilenler.some((item) =>
+     String(item.id) === String(odulSahibi.id)
+@@ -88,9 +89,10 @@
+ 
+             <View style={styles.card}>
+               <Text style={[styles.label, styles.firstLabel]}>Ödül gerekçesi</Text>
+-              <Text style={styles.value}>
++              <Text style={styles.value} numberOfLines={metinAcik ? undefined : 3}>
+                 {metinGetir(odul?.motivation?.en, 'Ödül gerekçesi bulunamadı.')}
+               </Text>
++              <Button title={metinAcik ? 'Gizle' : 'Devamını göster'} onPress={() => setMetinAcik((deger) => !deger)} />
+             </View>
+ 
+             <View style={styles.card}>

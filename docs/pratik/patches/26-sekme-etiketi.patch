@@ -1,0 +1,15 @@
+diff --git a/App.js b/App.js
+--- a/App.js
++++ b/App.js
+@@ -36,7 +36,10 @@
+       <Tab.Screen name="Liste">
+         {(props) => <ListeScreen {...props} temaProps={temaProps} />}
+       </Tab.Screen>
+-      <Tab.Screen name="Kaydedilenler">
++      <Tab.Screen name="Kaydedilenler" options={{
++        tabBarLabel: 'Favoriler',
++        tabBarIcon: ({ color, size }) => <Text accessible={false} style={{ color, fontSize: size }}>♥</Text>,
++      }}>
+         {(props) => <KaydedilenlerScreen {...props} {...kayitProps} />}
+       </Tab.Screen>
+     </Tab.Navigator>

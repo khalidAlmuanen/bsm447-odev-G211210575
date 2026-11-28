@@ -12,7 +12,7 @@ Sakarya Üniversitesi BSM447 Mobil Uygulama Geliştirme dersi dönem ödevi.
 
 ## Projenin mevcut durumu
 
-Phase 1–6 uygulandı; Phase 7 için imzalı APK, Android emülatör testi, gerçek ekran görüntüleri ve ekran kaydı hazırlandı. Uygulamanın görünen adı **Nobel Kimya**. Fiziksel telefon testi ve OBİS teslimi öğrenci tarafından tamamlanmalıdır.
+Phase 1–6 uygulandı; Phase 7 için imzalı APK, Android emülatör testi, gerçek ekran görüntüleri ve ekran kaydı hazırlandı. Phase 8 için 30 canlı sınav görevini kapsayan ayrı çalışma rehberi ve örnek çözümler hazırlandı. Uygulamanın görünen adı **Nobel Kimya**. Süreli kişisel prova, fiziksel telefon testi ve OBİS teslimi öğrenci tarafından tamamlanmalıdır.
 
 Çalışan özellikler:
 
@@ -67,7 +67,7 @@ Kaydet düğmesine basın; düğme Kaydedilenlerden çıkar olarak değişmelidi
 
 Liste ekranındaki tema anahtarını açın. Detay ve Kaydedilenler'e geçerek yazıların, arama alanının, düğmelerin, başlıkların ve alt sekmelerin karanlık temada okunabildiğini kontrol edin. Uygulamayı tamamen kapatıp verilerini silmeden yeniden açın; karanlık tema ve kayıtlar korunmalıdır. Anahtarı kapatarak aydınlık tema için aynı adımları tekrarlayın. Telefonda klavye, durum çubuğu ve Android geri düğmesini de deneyin.
 
-Küçük ekran ve büyük yazı boyutunda kartları, uzun adları ve Detay ekranının kaydırılmasını kontrol edin. API erişimini geçici olarak kesip hata mesajı ve Tekrar dene düğmesini deneyin; Metro erişimi sürmelidir. Android başlatıcısındaki uygulama simgesinin kontrolü APK aşamasında yapılacaktır.
+Küçük ekran ve büyük yazı boyutunda kartları, uzun adları ve Detay ekranının kaydırılmasını kontrol edin. API erişimini geçici olarak kesip hata mesajı ve Tekrar dene düğmesini deneyin; Metro erişimi sürmelidir. Android başlatıcısındaki uygulama simgesini fiziksel telefona APK'yı kurarak kontrol edin.
 
 Doğum tarihi, yaklaşık yaş, kaydedilen veri, eksik/bozuk API alanlarının gösterimi ve tema tercihi doğrulamasının; ayrıca metin renklerinin kontrastının otomatik testlerini çalıştırmak için:
 
@@ -77,6 +77,7 @@ npm test
 
 ## Doğrulama
 
+- 28 Kasım 2026: `npm test` **105/105**; ayrı eğitim kopyalarında **30/30 patch** uygulama/geri alma kontrolü, Metro web derlemesi ve görev grubu kontrolü başarılı. Kapsam ve telefon testi sınırları [Phase 8 raporunda](docs/pratik/DOGRULAMA.md).
 - 27 Kasım 2026: `npm test` **105/105** başarılı. Git arşivinden ayrı klasöre çıkarılan kaynakta `npm ci` ve aynı **105/105** test de başarılı.
 - 27 Kasım: EAS `preview` APK derlemesi başarılı; arşiv bütünlüğü, paket/sürüm bilgileri ve APK v2 imzası doğrulandı.
 - Android 13 / API 33, x86_64 emülatörde gerçek APK kuruldu ve çalıştırıldı. Canlı liste ve yıl sırası, `AZIZ` araması, Aziz Sancar'ın detayları ve yaklaşık 69 yaşı, kaydetme, çıkarma, boş kayıt listesi, sistem geri düğmesi ve iki tema kontrol edildi. Kayıtların, silmenin ve her iki tema seçiminin uygulama durdurulup yeniden açıldığında korunduğu doğrulandı.
@@ -90,7 +91,13 @@ npm test
 - Fiziksel Android telefonda klavye, performans, büyük yazı boyutu ve başlatıcı simgesi kontrolü.
 - En az 10 gerçek farklı günde anlamlı Git çalışması şartını tamamlama; tarihler değiştirilmez.
 - OBİS'e ZIP yükleme ve başarılı teslimi kişisel olarak doğrulama.
-- Phase 8: canlı sınav görevlerine ayrı çalışma kopyasında hazırlanma.
+- Canlı sınav için 30 görevi ayrı kopyada, desteksiz ve süre tutarak kendin uygulama.
+
+## Canlı sınav hazırlığı — Phase 8
+
+[30 görevlik çalışma rehberi](docs/pratik/README.md), ödevin Ek 3, s.17–18 listesini izler. Her görev için bağımsız bir örnek patch, değişen dosyalar ve telefon kontrol adımları vardır. Patch'ler `83dc794` tabanına göre ayrı pratik kopyasında tek tek kullanılır; teslim uygulamasına birlikte uygulanmaz.
+
+[Doğrulama raporu](docs/pratik/DOGRULAMA.md), otomatik kontrolleri ve telefon/süreli prova sınırlarını açıklar. Öğrencinin 2,5 dakikalık desteksiz uygulaması tamamlanmış sayılmaz; rehberdeki prova kutuları bu nedenle boş bırakılmıştır. Phase 8 uygulama kodunu, Expo SDK'yı veya bağımlılıkları değiştirmez; README'deki APK aynı uygulama sürümüdür.
 
 ## Ekran görüntüleri
 

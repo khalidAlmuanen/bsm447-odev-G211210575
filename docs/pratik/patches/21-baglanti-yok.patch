@@ -1,0 +1,12 @@
+diff --git a/src/screens/ListeScreen.js b/src/screens/ListeScreen.js
+--- a/src/screens/ListeScreen.js
++++ b/src/screens/ListeScreen.js
+@@ -67,7 +67,7 @@
+       } catch (error) {
+         if (aktif) {
+           setOdulSahipleri([]);
+-          setHata(error?.name === 'AbortError'
++          setHata(error?.name === 'TypeError' ? 'Bağlantı yok' : error?.name === 'AbortError'
+             ? 'İstek zaman aşımına uğradı. Lütfen tekrar deneyin.'
+             : 'Veriler alınamadı. İnternet bağlantınızı kontrol edip tekrar deneyin.');
+         }

@@ -1,0 +1,35 @@
+diff --git a/src/screens/ListeScreen.js b/src/screens/ListeScreen.js
+--- a/src/screens/ListeScreen.js
++++ b/src/screens/ListeScreen.js
+@@ -166,6 +166,11 @@
+                 navigation.navigate('Detay', { odulSahibi: item, kaynak: 'Liste' });
+               }}
+             >
++              <View style={styles.avatar}>
++                <Text style={{ color: colors.buttonText, fontWeight: 'bold' }}>
++                  {isimGetir(item).charAt(0).toUpperCase()}
++                </Text>
++              </View>
+               <View style={styles.rowText}>
+                 <Text style={styles.name}>{isimGetir(item)}</Text>
+                 <Text style={styles.year}>
+@@ -230,12 +235,19 @@
+       flexDirection: 'row',
+       alignItems: 'center',
+       minHeight: 88,
++      elevation: 3,
++      shadowColor: '#000000', shadowOffset: { width: 0, height: 2 },
++      shadowOpacity: 0.15, shadowRadius: 4,
+       padding: 16,
+       marginBottom: 12,
+       borderWidth: 1,
+       borderColor: colors.border,
+       borderRadius: 12,
+       backgroundColor: colors.card,
++    },
++    avatar: {
++      width: 48, height: 48, borderRadius: 24, marginRight: 12,
++      alignItems: 'center', justifyContent: 'center', backgroundColor: colors.buttonBackground,
+     },
+     rowText: {
+       flex: 1,

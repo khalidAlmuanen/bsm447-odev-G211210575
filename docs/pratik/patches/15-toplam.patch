@@ -1,0 +1,11 @@
+diff --git a/src/screens/ListeScreen.js b/src/screens/ListeScreen.js
+--- a/src/screens/ListeScreen.js
++++ b/src/screens/ListeScreen.js
+@@ -133,6 +133,7 @@
+         returnKeyType="search"
+       />
+ 
++      {!yukleniyor && !hata && <Text style={styles.description}>Toplam {filtrelenmisListe.length} kayıt</Text>}
+       {yukleniyor ? (
+         <View style={styles.messageContainer}>
+           <ActivityIndicator size="large" color={colors.primary} />

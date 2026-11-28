@@ -1,0 +1,23 @@
+diff --git a/src/screens/ListeScreen.js b/src/screens/ListeScreen.js
+--- a/src/screens/ListeScreen.js
++++ b/src/screens/ListeScreen.js
+@@ -119,8 +119,9 @@
+           <Button title="Temayı tekrar yükle" onPress={temayiTekrarOku} />
+         </View>
+       )}
++      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+       <TextInput
+-        style={styles.searchInput}
++        style={[styles.searchInput, { flex: 1, marginBottom: 0 }]}
+         placeholder="İsme göre ara..."
+         placeholderTextColor={colors.placeholder}
+         selectionColor={colors.primary}
+@@ -132,6 +133,8 @@
+         autoCorrect={false}
+         returnKeyType="search"
+       />
++      <Button title="✕" accessibilityLabel="Aramayı temizle" onPress={() => setArama('')} />
++      </View>
+ 
+       {yukleniyor ? (
+         <View style={styles.messageContainer}>

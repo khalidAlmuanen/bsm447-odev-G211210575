@@ -1,0 +1,40 @@
+diff --git a/src/screens/DetayScreen.js b/src/screens/DetayScreen.js
+--- a/src/screens/DetayScreen.js
++++ b/src/screens/DetayScreen.js
+@@ -43,7 +43,8 @@
+           <>
+             <View style={styles.saveButton}>
+               <Button
+-                title={kayitli ? 'Kaydedilenlerden çıkar' : 'Kaydet'}
++                title={kayitli ? 'Kaydedildi ✓' : 'Kaydet'}
++                selected={kayitli}
+                 onPress={() => kaydiDegistir(odulSahibi)}
+                 disabled={!kayitlarHazir || kayitIslemiSuruyor}
+               />
+diff --git a/src/components/UygulamaDugmesi.js b/src/components/UygulamaDugmesi.js
+--- a/src/components/UygulamaDugmesi.js
++++ b/src/components/UygulamaDugmesi.js
+@@ -1,7 +1,7 @@
+ import { useTheme } from '@react-navigation/native';
+ import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+ 
+-export default function UygulamaDugmesi({ title, onPress, disabled = false, accessibilityLabel = title }) {
++export default function UygulamaDugmesi({ title, onPress, disabled = false, accessibilityLabel = title, selected = false }) {
+   const { colors } = useTheme();
+ 
+   return (
+@@ -14,12 +14,12 @@
+       activeOpacity={0.75}
+       style={[
+         styles.button,
+-        { backgroundColor: disabled ? colors.disabledBackground : colors.buttonBackground },
++        { backgroundColor: disabled || selected ? colors.disabledBackground : colors.buttonBackground },
+       ]}
+     >
+       <Text style={[
+         styles.title,
+-        { color: disabled ? colors.disabledText : colors.buttonText },
++        { color: disabled || selected ? colors.disabledText : colors.buttonText },
+       ]}>
+         {title}
+       </Text>

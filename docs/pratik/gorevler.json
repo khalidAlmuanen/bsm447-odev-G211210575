@@ -1,0 +1,372 @@
+{
+  "base": "83dc794",
+  "student": "G211210575",
+  "tasks": [
+    {
+      "no": 1,
+      "title": "Zebra satırlar",
+      "patch": "01-zebra.patch",
+      "page": 17,
+      "explanation": "renderItem içindeki index çift/tek kontrolüyle iki tema rengi seçilir. API dizisi ve sıralama değişmez.",
+      "test": "İlk üç satırın renkleri A/B/A olsun; iki temada yazılar okunsun.",
+      "existing": false,
+      "files": [
+        "src/screens/ListeScreen.js"
+      ]
+    },
+    {
+      "no": 2,
+      "title": "Başlık ve alt satır",
+      "patch": "02-baslik-alt-alan.patch",
+      "page": 17,
+      "explanation": "Satır başlığı 20 olur ve primary rengini alır. Yeni alt alan doğum ülkesidir; metinGetir eksik alanı güvenle karşılar.",
+      "test": "İsim boyutu/rengi değişsin; ülke küçük gri yazıyla görünsün; ülke yokken Bilinmiyor çıksın.",
+      "existing": false,
+      "files": [
+        "src/screens/ListeScreen.js"
+      ]
+    },
+    {
+      "no": 3,
+      "title": "Yuvarlak görsel ve gölge",
+      "patch": "03-harf-golge.patch",
+      "page": 17,
+      "explanation": "Listede fotoğraf kullanılmadığından isim baş harfi daire içine alınır. elevation Android, shadow özellikleri iOS gölgesi içindir.",
+      "test": "David için D dairesi ve kart gölgesi görünsün; uzun isim daralmadan kayabilsin.",
+      "existing": false,
+      "files": [
+        "src/screens/ListeScreen.js"
+      ]
+    },
+    {
+      "no": 4,
+      "title": "Uzun başlığı kısalt",
+      "patch": "04-tek-satir.patch",
+      "page": 17,
+      "explanation": "numberOfLines satırı sınırlar; ellipsizeMode sonuna üç nokta koyar. Kayıt adı ve arama verisi kesilmez, yalnızca görünüm sınırlanır.",
+      "test": "Dar ekranda uzun ad tek satır ve … ile bitsin; Detay tam adı göstersin.",
+      "existing": false,
+      "files": [
+        "src/screens/ListeScreen.js"
+      ]
+    },
+    {
+      "no": 5,
+      "title": "İki sütunlu bilgi",
+      "patch": "05-iki-sutun.patch",
+      "page": 17,
+      "explanation": "En az üç alan için row yönünde iki Text kullanılır. flex:1 iki sütuna alan verir; uzun değerler sarmalanır.",
+      "test": "Ödül yılı, doğum tarihi ve ülke solda etiket / sağda değer olarak hizalansın.",
+      "existing": false,
+      "files": [
+        "src/screens/DetayScreen.js"
+      ]
+    },
+    {
+      "no": 6,
+      "title": "Boş Kaydedilenler",
+      "patch": "06-bos-kayit.patch",
+      "page": 17,
+      "explanation": "Simge ve ortalama mevcut. İstenen kısa metni Henüz kayıt yok yap; boş ekranın flexGrow/flex bağlantısını açıkla.",
+      "test": "Boş listede ortada yıldız ve Henüz kayıt yok görünsün; kayıt eklenince kaybolsun.",
+      "existing": true,
+      "files": [
+        "src/screens/KaydedilenlerScreen.js"
+      ]
+    },
+    {
+      "no": 7,
+      "title": "Beğeni sayacı",
+      "patch": "07-begeni.patch",
+      "page": 17,
+      "explanation": "Sayaç geçici useState verisidir. Fonksiyonel güncelleme her basışı önceki değere ekler; kaydetme işlevinden bağımsızdır.",
+      "test": "♥ 0 üç basıştan sonra ♥ 3 olsun; Kaydet işlevi çalışmaya devam etsin.",
+      "existing": false,
+      "files": [
+        "src/screens/DetayScreen.js"
+      ]
+    },
+    {
+      "no": 8,
+      "title": "Liste / ızgara",
+      "patch": "08-izgara.patch",
+      "page": 17,
+      "explanation": "numColumns değişirken FlatList key de değişir; aksi durumda React Native sütun değişimini reddeder. Veriler kopyalanmaz veya silinmez.",
+      "test": "1 → 2 → 1 sütun geçişini dene; arama ve satırdan Detay açma çalışsın.",
+      "existing": false,
+      "files": [
+        "src/screens/ListeScreen.js"
+      ]
+    },
+    {
+      "no": 9,
+      "title": "Aramayı temizle",
+      "patch": "09-aramayi-temizle.patch",
+      "page": 17,
+      "explanation": "Kontrollü TextInput value=arama kullandığı için setArama boş metni hem kutuya hem filtreye yansıtır; API tekrar çağrılmaz.",
+      "test": "AZIZ yaz; kutunun yanındaki ✕ ile metin silinsin ve bütün liste geri gelsin.",
+      "existing": false,
+      "files": [
+        "src/screens/ListeScreen.js"
+      ]
+    },
+    {
+      "no": 10,
+      "title": "Görselleri gizle",
+      "patch": "10-alt-satiri-gizle.patch",
+      "page": 17,
+      "explanation": "Bu uygulamada satır görseli bulunmadığından PDF izin verdiği gibi ödül yılı alt satırı Switch ile koşullu gösterilir. Tema anahtarının state değeri kullanılmaz.",
+      "test": "Ödül yılını göster anahtarı sadece alt satırı kapatsın; adlar ve sıralama kalsın.",
+      "existing": false,
+      "files": [
+        "src/screens/ListeScreen.js"
+      ]
+    },
+    {
+      "no": 11,
+      "title": "Devamını göster",
+      "patch": "11-devamini-goster.patch",
+      "page": 17,
+      "explanation": "numberOfLines=3 yalnızca gerekçe metnine uygulanır. undefined verilince sınırlama kalkar; aynı state düğme etiketini değiştirir.",
+      "test": "Uzun gerekçede ilk 3 satır görünsün; Devamını göster açsın, Gizle tekrar kapasın.",
+      "existing": false,
+      "files": [
+        "src/screens/DetayScreen.js"
+      ]
+    },
+    {
+      "no": 12,
+      "title": "Kaydet düğmesinin durumu",
+      "patch": "12-kaydedildi.patch",
+      "page": 17,
+      "explanation": "Kaydet/çıkar davranışı zaten mevcut. kayitli true olduğunda başlık ve seçili renkler değişir; düğme devre dışı bırakılmaz, ikinci basış kaydı çıkarır.",
+      "test": "Kaydet → Kaydedildi ✓; renk değişsin; tekrar basınca kayıttan çıksın ve Kaydet yazsın.",
+      "existing": true,
+      "files": [
+        "src/screens/DetayScreen.js",
+        "src/components/UygulamaDugmesi.js"
+      ]
+    },
+    {
+      "no": 13,
+      "title": "Ters sıra",
+      "patch": "13-ters-sira.patch",
+      "page": 17,
+      "explanation": "reverse diziyi değiştirir. Önce spread ile kopya oluşturulur; gosterilecekListe yalnızca görüntü sırasıdır.",
+      "test": "Düğmeye iki kez bas; ilk sıra geri gelsin. Arama ve ödül verileri değişmesin.",
+      "existing": false,
+      "files": [
+        "src/screens/ListeScreen.js"
+      ]
+    },
+    {
+      "no": 14,
+      "title": "Sıra numarası",
+      "patch": "14-sira-numarasi.patch",
+      "page": 17,
+      "explanation": "renderItem index sıfırdan başlar; ekranda 1 tabanlı görünmesi için +1 kullanılır. keyExtractor id olarak kalır.",
+      "test": "Satırlar 1., 2., 3. diye numaralansın; filtrelenmiş ilk satır da 1. olsun.",
+      "existing": false,
+      "files": [
+        "src/screens/ListeScreen.js"
+      ]
+    },
+    {
+      "no": 15,
+      "title": "Başlıkta toplam",
+      "patch": "15-toplam.patch",
+      "page": 17,
+      "explanation": "Toplam API dizisinden değil filtrelenmisListe.length üzerinden hesaplanır. Ayrı bir sayaç state gerekmez.",
+      "test": "Toplam N kayıt aramada azalsın; sonuç yoksa Toplam 0 kayıt ve boş sonuç mesajı görünsün.",
+      "existing": false,
+      "files": [
+        "src/screens/ListeScreen.js"
+      ]
+    },
+    {
+      "no": 16,
+      "title": "Ayraç çizgisi",
+      "patch": "16-ayrac.patch",
+      "page": 17,
+      "explanation": "FlatList ItemSeparatorComponent satırlar arasına çizgi koyar; satırın iç border özelliğinden farklıdır. hairlineWidth ince çizgidir.",
+      "test": "İki komşu satır arasında gri çizgi olsun; son satırdan sonra fazladan ayraç oluşmasın.",
+      "existing": false,
+      "files": [
+        "src/screens/ListeScreen.js"
+      ]
+    },
+    {
+      "no": 17,
+      "title": "Sonuç bulunamadı",
+      "patch": "17-sonuc-yok.patch",
+      "page": 17,
+      "explanation": "Bu davranış mevcut ListEmptyComponent içinde hazır. Varyant, mesajı PDF metniyle ve canlı erişilebilirlik bildirimiyle gösterir; boş API yanıtı ayrı kalır.",
+      "test": "Olmayan ad yazınca Sonuç bulunamadı görünsün; aramayı silince kayıtlar geri gelsin.",
+      "existing": true,
+      "files": [
+        "src/screens/ListeScreen.js"
+      ]
+    },
+    {
+      "no": 18,
+      "title": "A → Z sıralama",
+      "patch": "18-alfabetik.patch",
+      "page": 17,
+      "explanation": "İsimler localeCompare ile karşılaştırılır. Önce kopya alındığı için ödül yılına göre temel sıra korunur.",
+      "test": "A → Z sırala isimleri alfabetik yapsın; Yıla göre ile eski sıra dönsün; arama çalışsın.",
+      "existing": false,
+      "files": [
+        "src/screens/ListeScreen.js"
+      ]
+    },
+    {
+      "no": 19,
+      "title": "Parametre değiştir",
+      "patch": "19-api-parametresi.patch",
+      "page": 17,
+      "explanation": "Örnek yalnızca limit=30 değerini 10 yapar; Kimya kategorisi korunur. Sınavdaki gerçek parametreyi hoca belirler. Kategori değişirse Liste filtresi de uyarlanmalıdır.",
+      "test": "Ağ isteğinde limit=10 ve nobelPrizeCategory=che görülsün; yeni yanıt listelensin. Sabit JSON ekleme.",
+      "existing": false,
+      "files": [
+        "src/screens/ListeScreen.js"
+      ]
+    },
+    {
+      "no": 20,
+      "title": "Yükleniyor göstergesi",
+      "patch": "20-yukleniyor.patch",
+      "page": 17,
+      "explanation": "yukleniyor/useEffect/try-finally akışı zaten mevcut. Varyant göstergeye etiket ekler ve PDF metnini kullanır; setTimeout ile sahte bekleme eklenmez.",
+      "test": "Yavaş yanıtta gösterge ve Yükleniyor… görünsün; yanıt tamamlanınca listeye geçilsin.",
+      "existing": true,
+      "files": [
+        "src/screens/ListeScreen.js"
+      ]
+    },
+    {
+      "no": 21,
+      "title": "Hata mesajı",
+      "patch": "21-baglanti-yok.patch",
+      "page": 17,
+      "explanation": "Hata ve tekrar deneme akışı mevcut. Ağ hatasındaki TypeError için Bağlantı yok kullanılır; timeout ve geçersiz yanıt ayrı kalır.",
+      "test": "İnterneti kes: Bağlantı yok ve Tekrar dene görünsün. Bağlantıyı açıp tekrar dene; liste gelsin.",
+      "existing": true,
+      "files": [
+        "src/screens/ListeScreen.js"
+      ]
+    },
+    {
+      "no": 22,
+      "title": "Yeni alan",
+      "patch": "22-yeni-alan.patch",
+      "page": 17,
+      "explanation": "Örnek alan birth.place.city.en, mevcut detayda gösterilmeyen doğum şehridir. Alanı hoca seçerse yolu ve etiketi değiştir; optional chaining ve metinGetir kullan.",
+      "test": "Şehir alanı bulunan kayıtta gerçek şehir görünsün; alan eksikse Bilinmiyor çıksın.",
+      "existing": false,
+      "files": [
+        "src/screens/DetayScreen.js"
+      ]
+    },
+    {
+      "no": 23,
+      "title": "Başlıkta kaydın adı",
+      "patch": "23-dinamik-baslik.patch",
+      "page": 18,
+      "explanation": "Stack.Screen options bir fonksiyon olur; route.params.odulSahibi içinden güvenli isim okunur. Ekran gövdesindeki başlık ile header farklıdır.",
+      "test": "İki farklı kaydı aç; üst navigasyon başlığı her kaydın adını göstersin; geri düğmesi çalışsın.",
+      "existing": false,
+      "files": [
+        "App.js"
+      ]
+    },
+    {
+      "no": 24,
+      "title": "Kaydedilenlerden detaya",
+      "patch": "24-kayittan-detaya.patch",
+      "page": 18,
+      "explanation": "Geçiş zaten mevcut. Varyantta aynı navigation.navigate çağrısı detayiAc isimli sıradan fonksiyona alınır; seçilen tam kayıt parametre olarak taşınır.",
+      "test": "İki kayıt sakla; Kaydedilenler içinden ikincisini aç; Detay ikinci kaydın adı ve yılı olsun.",
+      "existing": true,
+      "files": [
+        "src/screens/KaydedilenlerScreen.js"
+      ]
+    },
+    {
+      "no": 25,
+      "title": "Hakkında ekranı",
+      "patch": "25-hakkinda.patch",
+      "page": 18,
+      "explanation": "Basit ekran adı/öğrenci no/sürüm gösterir. Sürüm app.json içinden okunur; isim mevcut Git kimliğidir. Stack kaydı ve Liste düğmesi birlikte eklenir.",
+      "test": "Hakkında aç: KHALID ALMUANEN, G211210575 ve 1.0.0 görünsün; geri dön ve temayı dene.",
+      "existing": false,
+      "files": [
+        "src/screens/ListeScreen.js",
+        "App.js",
+        "src/screens/HakkindaScreen.js"
+      ]
+    },
+    {
+      "no": 26,
+      "title": "Sekme etiketi ve simgesi",
+      "patch": "26-sekme-etiketi.patch",
+      "page": 18,
+      "explanation": "Kaydedilenler route adı korunur. Yalnızca tabBarLabel Favoriler ve simge ♥ olur; mevcut navigation çağrıları bozulmaz.",
+      "test": "Alt sekmede Favoriler ve kalp görünsün; sekmeye basınca Kaydedilenler içeriği açılsın.",
+      "existing": false,
+      "files": [
+        "App.js"
+      ]
+    },
+    {
+      "no": 27,
+      "title": "Tümünü sil",
+      "patch": "27-tumunu-sil.patch",
+      "page": 18,
+      "explanation": "Onay Alert içinde alınır. Sil callback ortak kayitlariGuncelle([]) fonksiyonunu kullanır; başlangıç okuması, yazma kilidi ve hata korumaları korunur. Tema anahtarı silinmez.",
+      "test": "Vazgeç kayıtları korusun; Sil listeyi boşaltsın; yeniden açılışta boş kalsın. Yalnızca deneme kayıtları kullan.",
+      "existing": false,
+      "files": [
+        "src/screens/KaydedilenlerScreen.js",
+        "App.js"
+      ]
+    },
+    {
+      "no": 28,
+      "title": "Kayıt tarihi",
+      "patch": "28-kayit-tarihi.patch",
+      "page": 18,
+      "explanation": "Yeni kayda ISO tarih eklenir ve tam kayıtla saklanır. Görünümde tr-TR tarih+saat kullanılır. Eski tarihsiz kayıtta Bilinmiyor gösterilir.",
+      "test": "Bir kayıt ekle; tarih ve saat görünsün; yeniden açınca tarih değişmesin; eski kayıtlar hata vermesin.",
+      "existing": false,
+      "files": [
+        "src/screens/KaydedilenlerScreen.js",
+        "App.js"
+      ]
+    },
+    {
+      "no": 29,
+      "title": "Son aramayı hatırla",
+      "patch": "29-son-arama.patch",
+      "page": 18,
+      "explanation": "Son arama ayrı anahtarda düz metin tutulur. İlk getItem bitmeden setItem çalıştırılmaz; böylece saklanan aramanın üstüne boş değer yazılmaz. Okuma hatasında kutu kilitli kalır ve yeniden açma mesajı görünür.",
+      "test": "AZIZ yazıp uygulamayı yeniden aç; kutu ve filtre AZIZ olsun. Boş arama da saklansın; kayıt/tema anahtarları değişmesin.",
+      "existing": false,
+      "files": [
+        "src/screens/ListeScreen.js"
+      ]
+    },
+    {
+      "no": 30,
+      "title": "Kaydedilenleri sırala",
+      "patch": "30-kaydedilenleri-sirala.patch",
+      "page": 18,
+      "explanation": "Yeni kayıtlara ISO tarih eklenir. Kopya ters çevrilip tarihe göre sıralanır; eski tarihsiz kayıtlarda da son eklenen önce görünür. Ana dizi değiştirilmez.",
+      "test": "A sonra B kaydet: B üstte olsun. A çıkarılıp yeniden eklenirse A üste gelsin; yeniden açılışta sıra korunsun.",
+      "existing": false,
+      "files": [
+        "src/screens/KaydedilenlerScreen.js",
+        "App.js"
+      ]
+    }
+  ]
+}

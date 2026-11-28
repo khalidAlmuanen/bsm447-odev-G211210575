@@ -1,0 +1,20 @@
+diff --git a/src/screens/ListeScreen.js b/src/screens/ListeScreen.js
+--- a/src/screens/ListeScreen.js
++++ b/src/screens/ListeScreen.js
+@@ -156,7 +156,7 @@
+           keyboardShouldPersistTaps="handled"
+           keyboardDismissMode="on-drag"
+           contentContainerStyle={styles.listContent}
+-          renderItem={({ item }) => (
++          renderItem={({ item, index }) => (
+             <TouchableOpacity
+               style={styles.row}
+               accessibilityRole="button"
+@@ -166,6 +166,7 @@
+                 navigation.navigate('Detay', { odulSahibi: item, kaynak: 'Liste' });
+               }}
+             >
++              <Text style={{ color: colors.primary, marginRight: 8 }}>{index + 1}.</Text>
+               <View style={styles.rowText}>
+                 <Text style={styles.name}>{isimGetir(item)}</Text>
+                 <Text style={styles.year}>

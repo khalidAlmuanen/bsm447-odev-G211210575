@@ -1,0 +1,15 @@
+diff --git a/src/screens/ListeScreen.js b/src/screens/ListeScreen.js
+--- a/src/screens/ListeScreen.js
++++ b/src/screens/ListeScreen.js
+@@ -156,9 +156,9 @@
+           keyboardShouldPersistTaps="handled"
+           keyboardDismissMode="on-drag"
+           contentContainerStyle={styles.listContent}
+-          renderItem={({ item }) => (
++          renderItem={({ item, index }) => (
+             <TouchableOpacity
+-              style={styles.row}
++              style={[styles.row, { backgroundColor: index % 2 === 0 ? colors.card : colors.disabledBackground }]}
+               accessibilityRole="button"
+               accessibilityLabel={`${isimGetir(item)}, ödül yılı ${yilGetir(item) || 'bilinmiyor'}. Detayı aç`}
+               onPress={() => {

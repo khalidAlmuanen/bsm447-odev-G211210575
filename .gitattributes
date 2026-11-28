@@ -1,0 +1,2 @@
+# Unified diffs need LF and a space marker on empty context lines.
+docs/pratik/patches/*.patch text eol=lf whitespace=-blank-at-eol,-blank-at-eof

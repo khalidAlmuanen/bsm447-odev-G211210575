@@ -1,0 +1,12 @@
+diff --git a/src/screens/ListeScreen.js b/src/screens/ListeScreen.js
+--- a/src/screens/ListeScreen.js
++++ b/src/screens/ListeScreen.js
+@@ -17,7 +17,7 @@
+ } from 'react-native';
+ 
+ const API_URL =
+-  'https://api.nobelprize.org/2.1/laureates?limit=30&nobelPrizeCategory=che';
++  'https://api.nobelprize.org/2.1/laureates?limit=10&nobelPrizeCategory=che';
+ 
+ export default function ListeScreen({ navigation, temaProps }) {
+   const { colors, dark } = useTheme();

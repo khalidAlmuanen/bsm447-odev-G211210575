@@ -1,0 +1,14 @@
+diff --git a/src/screens/ListeScreen.js b/src/screens/ListeScreen.js
+--- a/src/screens/ListeScreen.js
++++ b/src/screens/ListeScreen.js
+@@ -177,8 +177,8 @@
+           )}
+           ListEmptyComponent={
+             <View style={styles.messageContainer}>
+-              <Text style={styles.message}>
+-                {aramaMetni ? 'Sonuç bulunamadı.' : 'Gösterilecek kayıt bulunamadı.'}
++              <Text style={styles.message} accessibilityLiveRegion="polite">
++                {aramaMetni ? 'Sonuç bulunamadı' : 'Gösterilecek kayıt bulunamadı.'}
+               </Text>
+               <Text style={styles.emptyHint}>
+                 {aramaMetni ? 'Farklı bir isimle tekrar arayın.' : 'API şu anda bir kayıt döndürmedi.'}

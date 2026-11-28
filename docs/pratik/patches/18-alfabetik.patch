@@ -1,0 +1,39 @@
+diff --git a/src/screens/ListeScreen.js b/src/screens/ListeScreen.js
+--- a/src/screens/ListeScreen.js
++++ b/src/screens/ListeScreen.js
+@@ -26,6 +26,7 @@
+     karanlik, temaYukleniyor, temaHazir, temaKaydediliyor,
+     temaHatasi, temaDegistir, temayiTekrarOku,
+   } = temaProps;
++  const [alfabetik, setAlfabetik] = useState(false);
+   const [odulSahipleri, setOdulSahipleri] = useState([]);
+   const [arama, setArama] = useState('');
+   const [yukleniyor, setYukleniyor] = useState(true);
+@@ -91,6 +92,10 @@
+   const filtrelenmisListe = odulSahipleri.filter((kayit) =>
+     isimGetir(kayit).toLowerCase().includes(aramaMetni)
+   );
++
++  const gosterilecekListe = alfabetik
++    ? [...filtrelenmisListe].sort((a, b) => isimGetir(a).localeCompare(isimGetir(b), 'en'))
++    : filtrelenmisListe;
+ 
+   return (
+     <SafeAreaView style={styles.container} edges={['left', 'right']}>
+@@ -119,6 +124,7 @@
+           <Button title="Temayı tekrar yükle" onPress={temayiTekrarOku} />
+         </View>
+       )}
++      <Button title={alfabetik ? 'Yıla göre' : 'A → Z sırala'} onPress={() => setAlfabetik((deger) => !deger)} />
+       <TextInput
+         style={styles.searchInput}
+         placeholder="İsme göre ara..."
+@@ -151,7 +157,7 @@
+       ) : (
+         <FlatList
+           style={styles.list}
+-          data={filtrelenmisListe}
++          data={gosterilecekListe}
+           keyExtractor={(item) => String(item.id)}
+           keyboardShouldPersistTaps="handled"
+           keyboardDismissMode="on-drag"

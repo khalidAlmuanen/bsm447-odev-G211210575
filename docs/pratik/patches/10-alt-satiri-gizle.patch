@@ -1,0 +1,32 @@
+diff --git a/src/screens/ListeScreen.js b/src/screens/ListeScreen.js
+--- a/src/screens/ListeScreen.js
++++ b/src/screens/ListeScreen.js
+@@ -26,6 +26,7 @@
+     karanlik, temaYukleniyor, temaHazir, temaKaydediliyor,
+     temaHatasi, temaDegistir, temayiTekrarOku,
+   } = temaProps;
++  const [altSatirGoster, setAltSatirGoster] = useState(true);
+   const [odulSahipleri, setOdulSahipleri] = useState([]);
+   const [arama, setArama] = useState('');
+   const [yukleniyor, setYukleniyor] = useState(true);
+@@ -119,6 +120,8 @@
+           <Button title="Temayı tekrar yükle" onPress={temayiTekrarOku} />
+         </View>
+       )}
++      <Text style={styles.description}>Ödül yılını göster</Text>
++      <Switch accessibilityLabel="Ödül yılını göster" value={altSatirGoster} onValueChange={setAltSatirGoster} />
+       <TextInput
+         style={styles.searchInput}
+         placeholder="İsme göre ara..."
+@@ -168,9 +171,9 @@
+             >
+               <View style={styles.rowText}>
+                 <Text style={styles.name}>{isimGetir(item)}</Text>
+-                <Text style={styles.year}>
++                {altSatirGoster && <Text style={styles.year}>
+                   Ödül yılı: {yilGetir(item) || 'Bilinmiyor'}
+-                </Text>
++                </Text>}
+               </View>
+               <Text style={styles.chevron} accessible={false}>›</Text>
+             </TouchableOpacity>

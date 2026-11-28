@@ -1,0 +1,38 @@
+diff --git a/src/screens/KaydedilenlerScreen.js b/src/screens/KaydedilenlerScreen.js
+--- a/src/screens/KaydedilenlerScreen.js
++++ b/src/screens/KaydedilenlerScreen.js
+@@ -5,6 +5,14 @@
+ import Button from '../components/UygulamaDugmesi';
+ import { SafeAreaView } from 'react-native-safe-area-context';
+ import { isimGetir, yilGetir } from '../utils/nobel';
++
++function tarihGetir(kayit) {
++  if (!kayit.kayitTarihi) return 'Bilinmiyor';
++  const tarih = new Date(kayit.kayitTarihi);
++  return Number.isNaN(tarih.getTime()) ? 'Bilinmiyor' : tarih.toLocaleString('tr-TR', {
++    day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit',
++  });
++}
+ 
+ export default function KaydedilenlerScreen({
+   navigation, kaydedilenler, kayitlarYukleniyor, kayitlarHazir,
+@@ -48,6 +56,7 @@
+                 <Text style={styles.description}>
+                   Ödül yılı: {yilGetir(item) || 'Bilinmiyor'}
+                 </Text>
++                <Text style={styles.description}>Kayıt tarihi: {tarihGetir(item)}</Text>
+               </TouchableOpacity>
+               <Button
+                 title="Çıkar"
+diff --git a/App.js b/App.js
+--- a/App.js
++++ b/App.js
+@@ -182,7 +182,7 @@
+     const kayitli = kaydedilenler.some((item) => String(item.id) === String(kayit.id));
+     const yeniListe = kayitli
+       ? kaydedilenler.filter((item) => String(item.id) !== String(kayit.id))
+-      : [...kaydedilenler, kayit];
++      : [...kaydedilenler, { ...kayit, kayitTarihi: new Date().toISOString() }];
+     kayitlariGuncelle(yeniListe);
+   }
+ 

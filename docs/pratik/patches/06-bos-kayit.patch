@@ -1,0 +1,12 @@
+diff --git a/src/screens/KaydedilenlerScreen.js b/src/screens/KaydedilenlerScreen.js
+--- a/src/screens/KaydedilenlerScreen.js
++++ b/src/screens/KaydedilenlerScreen.js
+@@ -60,7 +60,7 @@
+           ListEmptyComponent={
+             <View style={styles.messageContainer}>
+               <Text style={styles.emptyIcon} accessible={false}>☆</Text>
+-              <Text style={styles.description}>Henüz kaydedilen bir ödül sahibi yok.</Text>
++              <Text style={[styles.description, { textAlign: 'center' }]}>Henüz kayıt yok</Text>
+               <Text style={styles.emptyHint}>
+                 Liste ekranından bir ödül sahibi seçip Kaydet'e basın.
+               </Text>

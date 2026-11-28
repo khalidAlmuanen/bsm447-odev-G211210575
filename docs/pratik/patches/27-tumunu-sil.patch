@@ -1,0 +1,52 @@
+diff --git a/src/screens/KaydedilenlerScreen.js b/src/screens/KaydedilenlerScreen.js
+--- a/src/screens/KaydedilenlerScreen.js
++++ b/src/screens/KaydedilenlerScreen.js
+@@ -1,5 +1,5 @@
+ import {
+-  ActivityIndicator, FlatList, StyleSheet, Text, TouchableOpacity, View,
++  ActivityIndicator, Alert, FlatList, StyleSheet, Text, TouchableOpacity, View,
+ } from 'react-native';
+ import { useTheme } from '@react-navigation/native';
+ import Button from '../components/UygulamaDugmesi';
+@@ -8,13 +8,18 @@
+ 
+ export default function KaydedilenlerScreen({
+   navigation, kaydedilenler, kayitlarYukleniyor, kayitlarHazir,
+-  kayitHatasi, kayitIslemiSuruyor, kayitSil, kayitlariTekrarOku,
++  kayitHatasi, kayitIslemiSuruyor, kayitSil, kayitlariTekrarOku, tumunuSil,
+ }) {
+   const { colors } = useTheme();
+   const styles = stilleriOlustur(colors);
+   return (
+     <SafeAreaView style={styles.container} edges={['left', 'right']}>
+       <Text style={styles.title}>Kaydedilenler</Text>
++      <Button title="Tümünü sil" disabled={!kayitlarHazir || kayitIslemiSuruyor || kaydedilenler.length === 0}
++        onPress={() => Alert.alert('Tümünü sil', 'Bütün deneme kayıtları silinsin mi?', [
++          { text: 'Vazgeç', style: 'cancel' },
++          { text: 'Sil', style: 'destructive', onPress: tumunuSil },
++        ])} />
+       {kayitHatasi !== '' && (
+         <Text style={styles.error} accessibilityRole="alert">
+           {kayitHatasi}
+diff --git a/App.js b/App.js
+--- a/App.js
++++ b/App.js
+@@ -191,13 +191,17 @@
+     kayitlariGuncelle(yeniListe);
+   }
+ 
++  function tumunuSil() {
++    kayitlariGuncelle([]);
++  }
++
+   function kayitlariTekrarOku() {
+     setOkumaDenemesi((sayi) => sayi + 1);
+   }
+ 
+   const kayitProps = {
+     kaydedilenler, kayitlarYukleniyor, kayitlarHazir, kayitHatasi,
+-    kayitIslemiSuruyor, kaydiDegistir, kayitSil, kayitlariTekrarOku,
++    kayitIslemiSuruyor, kaydiDegistir, kayitSil, kayitlariTekrarOku, tumunuSil,
+   };
+ 
+   return (

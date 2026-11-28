@@ -1,0 +1,45 @@
+diff --git a/src/screens/KaydedilenlerScreen.js b/src/screens/KaydedilenlerScreen.js
+--- a/src/screens/KaydedilenlerScreen.js
++++ b/src/screens/KaydedilenlerScreen.js
+@@ -6,12 +6,20 @@
+ import { SafeAreaView } from 'react-native-safe-area-context';
+ import { isimGetir, yilGetir } from '../utils/nobel';
+ 
++function zamanGetir(kayit) {
++  const zaman = Date.parse(kayit.kayitTarihi);
++  return Number.isNaN(zaman) ? 0 : zaman;
++}
++
+ export default function KaydedilenlerScreen({
+   navigation, kaydedilenler, kayitlarYukleniyor, kayitlarHazir,
+   kayitHatasi, kayitIslemiSuruyor, kayitSil, kayitlariTekrarOku,
+ }) {
+   const { colors } = useTheme();
+   const styles = stilleriOlustur(colors);
++  const siraliKayitlar = [...kaydedilenler].reverse()
++    .sort((a, b) => zamanGetir(b) - zamanGetir(a));
++
+   return (
+     <SafeAreaView style={styles.container} edges={['left', 'right']}>
+       <Text style={styles.title}>Kaydedilenler</Text>
+@@ -32,7 +40,7 @@
+       ) : (
+         <FlatList
+           style={styles.list}
+-          data={kaydedilenler}
++          data={siraliKayitlar}
+           keyExtractor={(item) => String(item.id)}
+           contentContainerStyle={styles.listContent}
+           renderItem={({ item }) => (
+diff --git a/App.js b/App.js
+--- a/App.js
++++ b/App.js
+@@ -182,7 +182,7 @@
+     const kayitli = kaydedilenler.some((item) => String(item.id) === String(kayit.id));
+     const yeniListe = kayitli
+       ? kaydedilenler.filter((item) => String(item.id) !== String(kayit.id))
+-      : [...kaydedilenler, kayit];
++      : [...kaydedilenler, { ...kayit, kayitTarihi: new Date().toISOString() }];
+     kayitlariGuncelle(yeniListe);
+   }
+ 
